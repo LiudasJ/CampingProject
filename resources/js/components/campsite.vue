@@ -1,0 +1,99 @@
+<template>
+    <div>
+        <div class="camping-card flex centering flex-col space-around relative shadow">
+            <div v-if="auth" class="crud-btns-container flex flex-col absolute">
+                <div class="crud-btn">
+                    <i @click="edit()" class="fas fa-edit"></i>
+                </div>
+                <div class="crud-btn">
+                    <i @click="remove()" class="fas fa-trash"></i>
+                </div>
+            </div>
+            <h2 class="text-center"> 
+                <span class="font-bold font-lg main-text-color">{{camping.name}}</span>
+            </h2>
+            <div class="camp-image relative" :style="[camping.img_path ? {'background-image': 'url(../storage/' + camping.img_path + ')'} : {'background': '#FFF'}]">
+                <div class="absolute upload-container" v-if="auth">
+                    <upload-container v-on:imageChanged="$emit('campingsChanged')" :camping="camping"></upload-container>
+                </div>
+            </div>
+            <div class="camping-card-heading">
+                <div class="location-tags-container flex">
+                    <div class="location-container">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span class="font-bold font-sm main-text-color">{{camping.country}},</span> 
+                        <span class="font-bold font-sm main-text-color">{{camping.city}}</span>
+                        <div class="rating-container mt-10 flex">
+                            <i v-for='index in rating' :key='index' class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <div class="tags-container">
+                        <div v-for="tag in camping.tags" :key="tag.id">
+                            <i v-if="tag.name === 'Pool'" class="fas fa-swimmer"></i>
+                            <i v-if="tag.name === 'Wifi'" class="fas fa-wifi"></i>
+                            <i v-if="tag.name === 'Parking'" class="fas fa-parking"></i>
+                            <span class="tag-name">{{tag.name}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div v-if="review > 0" class="font-sm"> Review: {{review.toFixed(0) >  8 ? 'Very Good' : 'Average'}} {{review.toFixed(0)}} / 10 </div>
+            <div v-if="review == 0" class="font-sm"> No reviews yet </div>
+            <div class="more-container main-bg-color flex centering">
+                <a v-bind:href="'/campings/' + camping.id">More Here</a>
+            </div>
+            <div>
+                <a v-bind:href="'http://' + camping.website"> <span class="font-bold color-black font-sm">Visit us</span></a> 
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+
+import addCampsiteForm from "./addCampsiteForm"
+import uploadContainer from "./uploadContainer"
+
+export default {
+    components: { addCampsiteForm, uploadContainer },
+    data: function () {
+        return {
+            id: this.camping.id,
+            review: parseInt(this.camping.average_review), 
+            campingData: '',
+            tags: '',
+            rating: this.camping.rating
+        }
+    },
+    props: ['camping', 'auth'],
+    methods: {
+        remove() {
+            axios.delete('/campings/' + this.id + '/delete')
+            .then( response => {
+                if (response.status === 200) {
+                    this.$emit('campingsChanged');
+                }
+            })
+            .catch(error => {
+                console.log('could not remove camping');
+            })
+        },
+        edit() {
+            axios.get('/campings/' + this.id + '/edit')
+            .then(response => {
+                if (response.status === 200) {
+                    this.campingData = response.data.campsite;
+                    this.tags = response.data.tags;
+                    this.$router.push({ 
+                        name : 'campForm', params: {camping: this.campingData, tags: this.tags, edit: true} }); 
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            })  
+        }
+    },
+    created() {
+    }
+}
+</script>
+
