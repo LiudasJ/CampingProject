@@ -37,6 +37,7 @@ export default {
         init() {
             axios.get('/init')
             .then( response => {
+                console.log(response.data)
                 this.campings = response.data.latestcampings.data;
                 this.bestRated = response.data.topRated;
             })

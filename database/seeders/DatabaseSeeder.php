@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -13,7 +14,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Review::factory(10)->create();
-        \App\Models\Campsite::factory(10)->create();
+        $this->call(TagsTableSeeder::class);
+
+        \App\Models\Campsite::factory(10)->hasReview(5)->create();
+
     }
 }

@@ -2368,6 +2368,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get('/init').then(function (response) {
+        console.log(response.data);
         _this.campings = response.data.latestcampings.data;
         _this.bestRated = response.data.topRated;
       })["catch"](function (error) {
@@ -39843,8 +39844,9 @@ var render = function() {
           {
             name: "show",
             rawName: "v-show",
-            value: _vm.$route.name !== "login",
-            expression: "$route.name!=='login'"
+            value:
+              _vm.$route.name !== "login" && _vm.$route.name !== "campForm",
+            expression: "$route.name!=='login' && $route.name!=='campForm'"
           }
         ]
       })

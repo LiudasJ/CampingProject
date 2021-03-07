@@ -277,12 +277,15 @@ label {
   right: 5px;
 }
 .location-container, .tags-container {
-  height: 50px;
+  height: 70px;
   padding: 5px;
 }
 .location-tags-container {
   padding: 5px;
   margin-bottom: 10px;
+}
+.rating-container {
+  margin: 5px 0;
 }
 .location-container {
   width: 55%;

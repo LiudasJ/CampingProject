@@ -16,7 +16,7 @@ class Campsite extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'country', 'city', 'website', 'review', 'rating', 'img_path'
+        'name'
     ];
 
     use HasFactory;

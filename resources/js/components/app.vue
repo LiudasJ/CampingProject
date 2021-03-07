@@ -6,7 +6,7 @@
             v-on:loggedOut="logout()">
         </site-header>
         <router-view :auth="isLogged"></router-view>
-        <footer-container v-show="$route.name!=='login'"></footer-container>
+        <footer-container v-show="$route.name!=='login' && $route.name!=='campForm'"></footer-container>
     </div>
 </template>
 

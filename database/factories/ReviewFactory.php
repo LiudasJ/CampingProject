@@ -22,7 +22,7 @@ class ReviewFactory extends Factory
     public function definition()
     {
         return [
-            'campsite_id' => rand(1, 10),
+            'campsite_id' => \App\Models\Campsite::factory(),
             'review' => rand(1, 10),
         ];
     }
