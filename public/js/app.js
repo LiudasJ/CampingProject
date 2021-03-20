@@ -37911,16 +37911,8 @@ var render = function() {
     _c(
       "div",
       { staticClass: "ratings-scale-container" },
-      _vm._l(5, function(index) {
-        return _c(
-          "i",
-          _vm._b(
-            { key: index, staticClass: "far fa-star" },
-            "i",
-            _vm.score,
-            false
-          )
-        )
+      _vm._l(10, function(index) {
+        return _c("i", { key: index, staticClass: "far fa-star" })
       }),
       0
     )
