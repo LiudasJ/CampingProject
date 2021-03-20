@@ -9,20 +9,50 @@ use App\Models\Review;
 class CampsiteController extends Controller
 {
     
-    public function initialize () {
+    public function all() {
+
+        $camping = new Campsite();
+
+        return view('welcome' , [
+            'campings' => $camping->allCamps()
+        ]);
+    }
+
+    public function latest ()
+    {
         
         $camping = new Campsite();
 
         $latestCampings = $camping->latestCampsites();
-        $topRatedCampings = $camping->bestRatedCampsites();
-        
-        $response = [
-            'latestcampings' => $latestCampings,
-            'topRated' => $topRatedCampings];
 
-        return $response;
+        return view('latest', [
+            'campings' => $latestCampings
+        ]);
 
     }
+
+    public function topRated() 
+    {
+
+        $camping = new Campsite();
+
+        $topRatedCampings = $camping->bestRatedCampsites();
+
+        return view('top', [
+            'campings' => $topRatedCampings
+        ]);
+
+    }
+
+    public function readMore ($id) {
+
+        $camping = Campsite::with(['tags'])->find($id);
+
+        return view('more', [
+            "camping" => $camping
+        ]);
+    }
+
     public function store (Request $request)
     {
 

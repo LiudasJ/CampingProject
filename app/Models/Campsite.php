@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+
 use App\Models\Review;
 use App\Models\Tags;
 
@@ -21,8 +23,12 @@ class Campsite extends Model
 
     use HasFactory;
 
-    public function review() {
+    public function reviews() {
         return $this->hasMany(Review::class);
+    }
+
+    public function avgReview() {
+        return $this->reviews()->avg('review');
     }
 
     public function tags() {
@@ -31,20 +37,25 @@ class Campsite extends Model
 
     public function latestCampsites() {
 
-        return $this::with(['tags'])->withCount(['review as average_review' => function($query) {
-            $query->select(Review::raw('coalesce(avg(review),0)'));
-        }])->latest()->paginate(5);
-
-        // return $this::with(['tags'])->latest()->paginate(5);
-
+        return $this::with(['tags'])
+                ->latest()
+                ->paginate(5);
     }
 
     public function bestRatedCampsites() {
 
-        return $this::with(['tags'])->withCount(['review as average_review' => function($query) {
-            $query->select(Review::raw('coalesce(avg(review),0)'));
-        }])->orderByDesc('average_review')->get();
+        return $this::with(['tags'])
+                ->withCount(['reviews as average_review' => function($query) {
+                                $query->select(Review::raw('coalesce(avg(review),0)'));
+                            }])
+                ->orderByDesc('average_review')
+                ->take(5)
+                ->get();
 
+    }
+
+    public function allCamps() {
+        return $this::with(['tags'])->orderBy('rating', 'desc')->get();
     }
 
 }

@@ -37,7 +37,7 @@
                     </div>
                 </div>
             </div>
-            <div v-if="review > 0" class="font-sm"> Review: {{review.toFixed(0) >  8 ? 'Very Good' : 'Average'}} {{review.toFixed(0)}} / 10 </div>
+            <div v-if="review > 0" class="font-sm"> Review: {{review}} / 10 </div>
             <div v-if="review == 0" class="font-sm"> No reviews yet </div>
             <div class="more-container main-bg-color flex centering">
                 <a v-bind:href="'/campings/' + camping.id">More Here</a>
@@ -50,21 +50,17 @@
 </template>
 <script>
 
-import addCampsiteForm from "./addCampsiteForm"
-import uploadContainer from "./uploadContainer"
-
 export default {
-    components: { addCampsiteForm, uploadContainer },
     data: function () {
         return {
             id: this.camping.id,
-            review: parseInt(this.camping.average_review), 
+            review: this.review,
             campingData: '',
             tags: '',
             rating: this.camping.rating
         }
     },
-    props: ['camping', 'auth'],
+    props: ['camping', 'review'],
     methods: {
         remove() {
             axios.delete('/campings/' + this.id + '/delete')

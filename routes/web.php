@@ -13,8 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('app');
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
 });
 
+
+Route::get('/', 'App\Http\Controllers\CampsiteController@all');
+Route::post('/login', 'App\Http\Controllers\AuthenticationController@login');
+Route::get('/campings/top', 'App\Http\Controllers\CampsiteController@topRated');
+Route::get('/campings/latest', 'App\Http\Controllers\CampsiteController@latest');
+Route::get('/campings/{id}', 'App\Http\Controllers\CampsiteController@readMore');
 

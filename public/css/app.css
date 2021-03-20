@@ -1,43 +1,52 @@
 body {
   box-sizing: border-box;
-  /* background-color: #f1f1f1; */
-  font-family: 'Nunito';
+  font-family: "Nunito";
   max-width: 1400px;
-  padding: 40px;
   margin: auto;
 }
+
 a {
   text-decoration: none;
   color: white;
+  padding: 5px;
 }
+
 .danger {
-  border: 1px solid#df4759;
+  border: 1px solid #df4759;
 }
+
 .text-danger {
   color: #df4759;
 }
+
 .text-white {
   color: white;
 }
+
 .error-span {
   left: 25px;
   bottom: -25px;
   font-size: 14px;
 }
+
 .login-routes {
   position: relative;
   top: 20px;
 }
+
 .login-btn {
   width: 250px;
   height: 30px;
 }
+
 .w-100 {
   width: 100%;
 }
+
 .pointer {
   cursor: pointer;
 }
+
 button, .btn {
   padding: 5px;
   border: none;
@@ -47,6 +56,7 @@ button, .btn {
   justify-content: center;
   align-items: center;
 }
+
 .log-btn {
   width: 100px;
   top: 20px;
@@ -59,132 +69,219 @@ button, .btn {
   align-items: center;
   cursor: pointer;
 }
+
 input {
   padding: 5px;
   width: 250px;
   margin-top: 5px;
 }
+
 select {
   padding: 10px;
   width: 265px;
 }
+
 label {
   width: 80px;
 }
+
 .btn {
   width: 100px;
   cursor: pointer;
 }
+
 .fas {
   display: inline-block;
   padding: 0 5px;
-  color:#ef500b;
+  color: #3e4a79;
   font-size: 14px;
 }
+
 .mb-10 {
   margin-bottom: 10px;
 }
+
 .mb-20 {
   margin-bottom: 20px;
 }
+
 .mt-10 {
   margin-top: 10px;
 }
+
 .mt-20 {
   margin-top: 20px;
 }
+
+.p-20 {
+  padding: 20px;
+}
+
+.p-5 {
+  padding: 5px;
+}
+
+.w-50 {
+  width: 50%;
+}
+
 .overflow-0 {
   overflow: hidden;
 }
+
 .relative {
   position: relative;
 }
+
 .absolute {
   position: absolute;
 }
+
 .absolute-center {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
 .centering {
   justify-content: center;
   align-items: center;
 }
+
 .flex {
   display: flex;
 }
+
 .flex-col {
   flex-direction: column;
 }
+
 .flex-end {
   justify-content: flex-end;
 }
+
 .flex-start {
   justify-content: flex-start;
 }
+
 .wrap {
   flex-wrap: wrap;
 }
+
+.wrap {
+  flex-wrap: wrap;
+}
+
 .text-center {
   text-align: center;
 }
+
 .space-around {
   justify-content: space-around;
 }
+
 .space-between {
   justify-content: space-between;
 }
+
 .vertical-align {
   align-items: center;
 }
+
 .shadow {
-  -webkit-box-shadow: 1px 1px 15px -3px #000000; 
   box-shadow: 1px 1px 15px -3px #000000;
 }
+
 .border {
   border: 1px solid #ef500b;
 }
+
 .font-bold {
   font-weight: bold;
 }
+
 .font-lg {
   font-size: 18px;
 }
+
 .font-sm {
   font-size: 14px;
 }
+
 .font-xs {
   font-size: 8px;
 }
+
 .main-text-color {
-  color:#ef500b;
+  color: #8bb3ae;
 }
+
 .main-bg-color {
-  background-color: #ef500b;
+  background-color: #3e4a79;
 }
+
 .color-black {
   color: black;
 }
+
+.heading-color {
+  color: #3e4a79;
+}
+
 .fa-edit, .fa-trash {
   margin: 5px 0;
   cursor: pointer;
 }
+
 .fa-edit {
-  color:#5cb85c;
+  color: #5cb85c;
 }
+
 .fa-trash {
   color: #df4759;
 }
+
 /* Globals */
 .header-container {
-  height: 400px;
-  background-image: url(../images/header.jpg);
-  background-position: center;
-  background-size: cover;
+  height: 350px;
   margin-bottom: 20px;
 }
+
+.header-image {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-image: url(/images/header.jpg);
+  background-position: bottom;
+  background-size: cover;
+  filter: blur(4px);
+}
+
+.header-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.navigation-container {
+  width: 60%;
+  margin: 20px auto;
+}
+
+nav ul {
+  list-style: none;
+}
+
+nav ul li {
+  text-align: center;
+  width: 120px;
+  padding: 5px;
+}
+
 .burger {
   height: 20px;
   width: 30px;
@@ -192,16 +289,61 @@ label {
   left: 5px;
   cursor: pointer;
 }
+
 .burger-item {
   height: 4px;
   width: 80%;
   margin: auto;
   background-color: #ef500b;
 }
+
+.welcome-container {
+  width: 100%;
+  height: 500px;
+}
+
+.carousel-container {
+  width: 1000px;
+  margin: auto;
+  height: 250px;
+  overflow: hidden;
+}
+
+.cards-container {
+  transition: 0.3s ease-in;
+}
+
+.welcome-camp-card {
+  height: 250px;
+  width: 250px;
+  flex-shrink: 0;
+}
+
+.carousel-controls {
+  height: 50px;
+  width: 50px;
+  cursor: pointer;
+}
+
+.prev {
+  top: 200px;
+  left: 0;
+}
+
+.next {
+  top: 200px;
+  right: 0;
+}
+
+.prev i, .next i {
+  font-size: 30px;
+}
+
 .auth-container {
   top: 20px;
   right: 20px;
 }
+
 .admin-nav-container {
   width: 600px;
   height: 40px;
@@ -209,29 +351,35 @@ label {
   transition: 0.3s ease-in;
   transform: translateX(-620px);
 }
+
 .active-nav {
   transform: translateX(0);
 }
+
 .create-btn {
   bottom: 20px;
   right: 20px;
   cursor: pointer;
 }
+
 .latest-campings-container {
   margin-top: 50px;
   width: 65%;
   margin: 0;
 }
+
 .best-campings-container {
   height: auto;
   width: 35%;
 }
+
 .camping-card {
   height: 450px;
   width: 300px;
   padding: 20px;
   margin: 20px;
 }
+
 .best-camping-card {
   height: 400px;
   width: 300px;
@@ -239,172 +387,222 @@ label {
   height: 300px;
   padding: 20px;
 }
+
 .camp-image {
   height: 180px;
   width: 250px;
   background-size: cover;
   background-position: center;
 }
-.camping-card-heading, .best-campsites-heading{
+
+.camping-card-heading, .best-campsites-heading {
   width: 100%;
   overflow: hidden;
 }
+
 .form-container {
   width: 100%;
   height: 100%;
   margin: auto;
   padding: 20px;
 }
+
 .form-wrapper {
   height: auto;
   width: 100%;
 }
+
 .form-chunk {
   height: 350px;
-  width: 35%
+  width: 35%;
 }
+
 .form-element {
   margin-bottom: 25px;
   width: 300px;
 }
+
 .more-container {
-  height: 30px;
+  height: auto;
   width: 100%;
   font-size: 14px;
 }
+
+.more-link-container {
+  border: 1px solid #3e4a79;
+}
+
 .crud-btns-container {
   top: 10px;
   right: 5px;
 }
+
 .location-container, .tags-container {
   height: 70px;
   padding: 5px;
 }
+
 .location-tags-container {
   padding: 5px;
   margin-bottom: 10px;
 }
+
 .rating-container {
   margin: 5px 0;
 }
+
 .location-container {
   width: 55%;
 }
+
 .tags-container {
   width: 45%;
 }
+
 .tag {
   margin: 0 5px;
 }
+
 .login-container {
   width: 100%;
   height: 500px;
 }
+
 .login-form {
   width: 350px;
   height: 450px;
   padding: 30px;
 }
+
 .guest-span {
   cursor: pointer;
   padding: 5px;
 }
+
 .upload-container {
   width: 290px;
   bottom: 5px;
   left: 5px;
 }
+
 .choose-file {
   padding: 5px 5px;
   cursor: pointer;
 }
-input[type='file'] {
+
+input[type=file] {
   display: none;
 }
+
 .img-span {
   display: inline-block;
   width: 90px;
   padding: 5px;
   overflow-x: hidden;
 }
+
 .upload-btn {
   cursor: pointer;
   background-color: #5cb85c;
   border: none;
 }
+
 .form-submit-btn {
   width: 30%;
   cursor: pointer;
 }
+
 .import-form {
   width: 300px;
 }
+
 .footer-container {
   height: 250px;
-  background-image: url(../images/header.jpg);
-  background-position: center;
+  background-image: url(/images/header.jpg);
+  background-position: bottom;
   background-size: cover;
   width: 100%;
   color: white;
 }
+
+.footer-nav {
+  width: 30%;
+  height: 100%;
+}
+
 @media only screen and (max-width: 600px) {
   body {
     padding: 15px;
   }
+
   .login-form {
     width: 260px;
     padding: 10px;
     height: 380px;
-    -webkit-box-shadow: 1px 1px 15px -3px #000000; 
     box-shadow: 1px 1px 15px -3px #000000;
   }
+
   .login-container {
     height: 400px;
   }
+
   .login-form h2 {
     font-size: 16px;
     margin-bottom: 25px;
   }
+
   .login-form label {
     font-size: 14px;
     text-align: center;
   }
+
   .login-form input {
     width: 200px;
   }
+
   .login-btn {
     width: 180px;
   }
+
   .form-element {
     margin: 20px 0 10px 0;
   }
+
   .burger {
     height: 20px;
     width: 25px;
   }
+
   .burger-item {
     height: 3px;
   }
+
   .admin-nav-container {
     height: auto;
     width: 280px;
   }
-  .btn, .log-btn, .choose-file, .upload-btn{
+
+  .btn, .log-btn, .choose-file, .upload-btn {
     padding: 5px;
     font-size: 12px;
   }
+
   .import-form {
     display: none;
   }
+
   .campsite-page-wrapper {
     display: block;
   }
+
   .latest-campings-container {
     width: 100%;
   }
+
   .campsite-card-container {
     display: block;
   }
+
   .camping-card {
     width: 100%;
     height: 400px;
@@ -412,49 +610,63 @@ input[type='file'] {
     padding: 0;
     margin: 0 0 20px 0;
   }
+
   .camping-card-heading h2 {
     margin: 15px 0;
   }
+
   .camp-image {
     width: 250px;
     height: 170px;
   }
+
   .crud-btns-container {
-    z-index: 1
+    z-index: 1;
   }
+
   .upload-controls {
     width: 240px;
     justify-content: flex-start;
   }
+
   .crud-btns-container .fas {
     font-size: 18px;
     margin-bottom: 20px;
   }
+
   .fa-edt {
     color: green;
   }
+
   .fa-trash {
     color: red;
   }
+
   .img-span {
     width: 45px;
   }
+
   .font-lg {
     font-size: 14px;
   }
+
   .font-sm, .fas {
     font-size: 12px;
   }
+
   .tag-name {
     font-size: 12px;
   }
+
   .more-container {
     font-size: 12px;
     margin: 10px 0;
   }
+
   .best-campings-container {
     width: 100%;
   }
+
   .best-camping-card {
     height: 380px;
     width: 280px;
@@ -462,75 +674,89 @@ input[type='file'] {
     padding: 0;
     font-size: 14px;
   }
+
   .best-camping-right {
     text-align: center;
   }
+
   .fa-circle {
     font-size: 8px;
   }
+
   .best-camp-review {
     text-align: left;
     margin: 5px 0;
   }
+
   .tags-container {
     align-items: center;
   }
+
   .form-container {
     width: 280px;
     padding: 10px;
   }
+
   .form-wrapper {
     display: block;
   }
+
   .form-chunk {
     width: 280px;
     height: 300px;
   }
+
   select {
     width: 260px;
   }
+
   .error-span {
     font-size: 12px;
   }
+
   .header-container {
     height: 200px;
   }
+
   .footer-container {
     height: 150px;
   }
+
   .header-p {
     padding: 5px;
   }
+
   h1, h2 {
     font-size: 20px;
   }
 }
 @media screen and (min-device-width: 601px) and (max-device-width: 1024px) {
-
   .campsite-page-wrapper {
     display: block;
   }
+
   .latest-campings-container {
     width: 100%;
   }
+
   .best-campings-container {
     width: 100%;
   }
+
   .campsite-card-container {
     justify-content: center;
   }
+
   .form-wrapper {
     display: block;
   }
+
   .form-chunk {
     width: 100%;
     height: 300px;
   }
-
 }
-
 @media screen and (min-device-width: 1025px) and (max-device-width: 1250px) {
-  
   .campsite-card-container {
     justify-content: center;
   }

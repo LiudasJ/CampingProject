@@ -54,12 +54,14 @@
         },
         methods: {
             login() {
-                this.$store.dispatch('login', {
+                axios.post('/login', {
                     username: this.user.username,
                     password: this.user.password
                 })
-                .then( () => {
-                    this.$router.push({ path : '/campings' })
+                .then( response => {
+                    if (response.status === 200) {
+                        console.log('logged in')
+                    }
                 })
                 .catch(e => {
                     if (e.response.status === 422) {
