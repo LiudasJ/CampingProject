@@ -14,4 +14,12 @@ class Review extends Model
         return $this->belongsTo(Campsite::class);
     }
 
+    public function store ($id, $review) {
+        
+        $this->campsite_id = $id;
+        $this->review = $review;
+        $this->save();
+
+    }
+
 }

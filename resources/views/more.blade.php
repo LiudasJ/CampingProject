@@ -7,25 +7,27 @@
             <div class="p-20">
                 <img src="{{$camping->img_path}}" width="400px" alt="logo">
             </div>
-            <div class="more-container-heading">
-                <h2 class="heading-color">{{$camping->name}}</h2>
-                <div class="mb-20 p-5"> 
-                    @if ($camping->avgReview()) 
-                        <span class="main-text-color">Review: {{round($camping->avgReview(),1)}}</span>
-                    @else
-                        <span class="main-text-color">No Reviews yet</span>
-                    @endif
+            <div class="more-container-heading flex">
+                <div class="p-20">
+                    <h2 class="heading-color">{{$camping->name}}</h2>
+                    <div class="mb-20"> 
+                        @if ($camping->avgReview()) 
+                            <span class="main-text-color">Review: {{round($camping->avgReview(),1)}}</span>
+                        @else
+                            <span class="main-text-color">No Reviews yet</span>
+                        @endif
+                    </div>
+                    <div class="mb-20">
+                        <span class="heading-color">Our Rating:</span>
+                        @for ($i = 0; $i < $camping->rating; $i++)
+                            <i class="far fa-star main-text-color font-sm"></i>
+                        @endfor
+                    </div>
+                    <div>
+                        <a class="main-text-color" href="https://{{$camping->website}}" target="_blank">Visit Us</a>
+                    </div>
                 </div>
-                <div class="p-5">
-                    <span class="heading-color">Our Rating:</span>
-                    @for ($i = 0; $i < $camping->rating; $i++)
-                        <i class="far fa-star main-text-color font-sm"></i>
-                    @endfor
-                </div>
-                <div class="mt-20">
-                    <a class="heading-color" href="https://{{$camping->website}}" target="_blank">Visit Us</a>
-                </div>
-                <rating-component></rating-component>
+                <rating-component v-bind:camp="{{$camping->id}}"></rating-component>
             </div>
         </div>
         <div class="more-paragraph">

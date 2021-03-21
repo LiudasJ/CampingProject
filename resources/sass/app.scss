@@ -41,11 +41,12 @@ body {
   button, .btn {
     padding: 5px;
     border: none;
-    background-color: #ef500b;
+    background-color: #3e4a79;
     color: white;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 14px;
   }
   .log-btn {
     width: 100px;
@@ -98,6 +99,9 @@ body {
   }
   .p-5 {
     padding: 5px;
+  }
+  .ps-10 {
+    padding: 0 10px;
   }
   .w-50 {
     width: 50%;
@@ -178,9 +182,6 @@ body {
   }
   .color-black {
     color: black;
-  }
-  .heading-color {
-    color: #3e4a79;
   }
   .fa-edit, .fa-trash {
     margin: 5px 0;

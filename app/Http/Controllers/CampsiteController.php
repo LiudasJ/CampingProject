@@ -115,6 +115,15 @@ class CampsiteController extends Controller
         $campsite->delete();
     }
 
+    public function rate($id, Request $request) {
+
+        $review = new Review();
+        $review->store($id, $request->rating);
+        
+        return response(['result' => 'Successfuly submitted'], 200);
+
+    }
+
     public function validateCamping() {
 
         return request()->validate([
