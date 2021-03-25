@@ -1,6 +1,6 @@
 <template>
     <div class="login-container relative">
-        <div class="login-form absolute-center shadow">
+        <div class="login-form flex flex-col centering">
             <h2 class="text-center">Registration Form</h2>
             <div class="flex flex-col centering">
                 <div class="form-element flex flex-col relative centering">
@@ -37,10 +37,10 @@
             <div class="login-routes flex flex-col centering">
                 <button class="login-btn mb-20 pointer" @click="register()" type="submit">Register</button>
                 <div>
-                    <span>Have an account?</span>&nbsp;<a class="main-text-color" href="/">Login</a>
+                    <span>Have an account?</span>&nbsp;<a class="main-text-color" href="/login">Login</a>
                 </div>
                 <div>
-                    <span @click="guest()" class="guest-span main-text-color">Visit as guest</span>
+                    <span class="guest-span main-text-color"><a href="/">Visit as guest</a></span>
                 </div>
             </div>
         </div>
@@ -61,22 +61,19 @@
         },
         methods: {
             register() {
-                this.$store.dispatch('register', {
+                axios.post('/register', {
                     username: this.user.username,
                     email: this.user.email,
                     password: this.user.password,
                 })
                 .then( () => {
-                    this.$router.push({ path : '/campings' })
+                    console.log('registered')
                 })
                 .catch(e => {
                     if (e.response.status === 422) {
                         this.errors = e.response.data.errors
                     }
                 })
-            },
-            guest() {
-                this.$router.push({ path : '/campings' });     
             }
         },
         mounted() {

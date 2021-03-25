@@ -1,21 +1,13 @@
 <template>
     <div>
         <div class="camping-card flex centering flex-col space-around relative shadow">
-            <div v-if="auth" class="crud-btns-container flex flex-col absolute">
-                <div class="crud-btn">
-                    <i @click="edit()" class="fas fa-edit"></i>
-                </div>
-                <div class="crud-btn">
-                    <i @click="remove()" class="fas fa-trash"></i>
-                </div>
-            </div>
             <h2 class="text-center"> 
                 <span class="font-bold font-lg main-text-color">{{camping.name}}</span>
             </h2>
             <div class="camp-image relative" :style="[camping.img_path ? {'background-image': 'url(../storage/' + camping.img_path + ')'} : {'background': '#FFF'}]">
-                <div class="absolute upload-container" v-if="auth">
+                <!-- <div class="absolute upload-container">
                     <upload-container v-on:imageChanged="$emit('campingsChanged')" :camping="camping"></upload-container>
-                </div>
+                </div> -->
             </div>
             <div class="camping-card-heading">
                 <div class="location-tags-container flex">
@@ -37,8 +29,8 @@
                     </div>
                 </div>
             </div>
-            <div v-if="review > 0" class="font-sm"> Review: {{review}} / 10 </div>
-            <div v-if="review == 0" class="font-sm"> No reviews yet </div>
+            <div v-if="reviews > 0" class="font-sm"> Review: {{reviews}} / 10 </div>
+            <div v-if="reviews == 0" class="font-sm"> No reviews yet </div>
             <div class="more-container main-bg-color flex centering">
                 <a v-bind:href="'/campings/' + camping.id">More Here</a>
             </div>
@@ -54,7 +46,7 @@ export default {
     data: function () {
         return {
             id: this.camping.id,
-            review: this.review,
+            reviews: this.review,
             campingData: '',
             tags: '',
             rating: this.camping.rating

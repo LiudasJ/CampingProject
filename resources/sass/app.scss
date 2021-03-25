@@ -7,7 +7,7 @@ body {
   }
   a {
     text-decoration: none;
-    color: white;
+    color: #8bb3ae;
     padding: 5px;
   }
   .danger {
@@ -31,6 +31,8 @@ body {
   .login-btn {
     width: 250px;
     height: 30px;
+    right: 20px;
+    top: 20px;
   }
   .w-100 {
     width: 100%;
@@ -136,9 +138,6 @@ body {
   }
   .flex-start {
     justify-content: flex-start;
-  }
-  .wrap {
-    flex-wrap: wrap;
   }
   .wrap {
     flex-wrap: wrap;
@@ -352,7 +351,7 @@ body {
     border: 1px solid #3e4a79;
   }
   .crud-btns-container {
-    top: 10px;
+    bottom: 10px;
     right: 5px;
   }
   .location-container, .tags-container {
@@ -380,9 +379,8 @@ body {
     height: 500px;
   }
   .login-form {
-    width: 350px;
-    height: 450px;
-    padding: 30px;
+    width: 100%;
+    height: 100%;
   }
   .guest-span {
     cursor: pointer;
@@ -429,6 +427,63 @@ body {
   .footer-nav {
     width: 30%;
     height: 100%;
+  }
+  .admin-panel-container {
+    height: 700px;
+    overflow-y: scroll;
+  }
+  .admin-panel-nav {
+    position: sticky;
+    top: 0;
+    width: 20%;
+    padding: 20px;
+    background-color: #dedede;
+    border: 2px solid #3e4a79;
+
+  }
+  .admin-panel-view {
+    width: 80%;
+  }
+  .adm-img-container {
+    height: 50px;
+    width: 50px;
+    background-color: white;
+    border: 2px solid #3e4a79;
+    border-radius: 50%;
+  }
+  .adm-img {
+    font-size: 22px;
+  }
+  .adm-nav-ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 40px;
+  }
+  .adm-nav-ul li {
+    width: 80%;
+    margin: auto;
+    padding: 5px;
+    background-color: white;
+    color: #3e4a79;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  .admin-record-container {
+    height: 350px;
+    width: 250px;
+    margin: 10px;
+    padding: 10px;
+    border: 2px solid #3e4a79;
+    flex-shrink: 0;
+  }
+  .admin-record-container ul {
+    list-style: none;
+    padding: 0;
+  }
+  .admin-record-container ul li {
+    height: auto;
+    margin-bottom: 10px;
+    width: 100%;
   }
   @media only screen and (max-width: 600px) {
     body {
@@ -501,9 +556,6 @@ body {
     .camp-image {
       width: 250px;
       height: 170px;
-    }
-    .crud-btns-container {
-      z-index: 1
     }
     .upload-controls {
       width: 240px;

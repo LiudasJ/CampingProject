@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthenticationController extends Controller
 {
-    public function login(Request $request) {
+    public function login(Request $request) 
+    {
 
         $request->validate([
             'username' => 'required',
@@ -19,22 +20,30 @@ class AuthenticationController extends Controller
         $user = User::where('username', $request->username)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return response([
-                'message' => ['Failed to login']
-            ], 404);
+           return response()->json([
+                'denied' => 'The provided credentials are incorrect.'
+           ], 404);
         }
 
-        $token = $user->createToken('my-app-token')->plainTextToken;
+        Auth::login($user);
 
-        $response = ['user' => $user, 'token' => $token];
-        
-        return view('app', [
-            'response' => $response
-        ]);
+        $token = $user->createToken('user-token')->plainTextToken;
+
+        $response = ['user' => $user, 'access_token' => $token];
+
+        return response($response, 200);
 
     }
     
-    public function register (Request $request) {
+    public function logout() 
+    {
+        auth()->user()->tokens()->delete();
+        Auth::logout();
+        return redirect('/');
+    }
+    
+    public function register (Request $request) 
+    {
 
         $request->validate([
             'username' => 'required',
@@ -53,9 +62,9 @@ class AuthenticationController extends Controller
         $user->password = bcrypt($request->password);
         $user->save();
         
-        $token = $user->createToken('my-app-token')->plainTextToken;
+        $token = $user->createToken('user-token')->plainTextToken;
 
-        $response = ['user' => $user, 'token' => $token];
+        $response = ['user' => $user, 'access_token' => $token];
 
         return response($response, 200);
 

@@ -23,6 +23,10 @@ window.Vue = require('vue').default;
 
 Vue.component('campsite', require('./components/Campsite.vue').default);
 Vue.component('rating-component', require('./components/Ratings.vue').default);
+Vue.component('login-component', require('./components/Login.vue').default);
+Vue.component('register-component', require('./components/Register.vue').default);
+Vue.component('admin-component', require('./components/Admin.vue').default);
+Vue.component('campingform-component', require('./components/CampingForm.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -15,9 +15,9 @@ use App\Http\Controllers\CampsiteController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 // Route::get('init', 'App\Http\Controllers\CampsiteController@initialize');
 // Route::get('campings/review/{id}', 'App\Http\Controllers\ReviewController@getReview');

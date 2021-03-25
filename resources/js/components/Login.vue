@@ -1,6 +1,6 @@
 <template>
     <div class="login-container relative">
-        <div class="login-form absolute-center shadow">
+        <div class="login-form flex flex-col centering">
             <h2 class="text-center">Please Login</h2>
             <div class="flex flex-col centering">
                 <div class="form-element flex flex-col relative centering">
@@ -28,11 +28,11 @@
             </div>
             <div class="login-routes flex flex-col centering">
                 <button class="login-btn mb-20 pointer" @click="login()" type="submit">Log in</button>
-                <div v-if="!auth">
-                    <span>Don't have an account?</span>&nbsp;<a class="main-text-color" href="#/register">Register</a>
+                <div>
+                    <span>Don't have an account?</span>&nbsp;<a class="main-text-color" href="/register">Register</a>
                 </div>
                 <div>
-                    <span @click="guest()" class="guest-span main-text-color"> {{auth ? 'Go to page' : 'Visit as Guest' }} </span>
+                    <span class="guest-span main-text-color"><a href="/">Visit as Guest</a></span>
                 </div>
             </div>
         </div>
@@ -41,7 +41,6 @@
 
 <script>
     export default {
-        props: ['auth'],
         data: function () {
             return {
                 user: {
@@ -60,19 +59,18 @@
                 })
                 .then( response => {
                     if (response.status === 200) {
-                        console.log('logged in')
+                        localStorage.setItem('access_token', response.data.access_token);
+                        window.location.replace('/');
                     }
                 })
                 .catch(e => {
+                    this.errors = [];
                     if (e.response.status === 422) {
                         this.errors = e.response.data.errors
                     } else if (e.response.status === 404) {
-                        this.invalidCred = 'Invalid credentials';
+                        this.invalidCred = e.response.data.denied;
                     }
                 })
-            },
-            guest() {
-                this.$router.push({ path : '/campings' });     
             }
         },
         mounted() {

@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Campsite;
 use App\Models\Review;
+use Illuminate\Support\Facades\Auth;
 
 class CampsiteController extends Controller
 {
-    
+
     public function all() {
 
         $camping = new Campsite();
@@ -35,7 +36,6 @@ class CampsiteController extends Controller
     {
 
         $camping = new Campsite();
-
         $topRatedCampings = $camping->bestRatedCampsites();
 
         return view('top', [
@@ -47,7 +47,6 @@ class CampsiteController extends Controller
     public function readMore ($id) {
 
         $camping = Campsite::with(['tags'])->find($id);
-
         return view('more', [
             "camping" => $camping
         ]);
@@ -74,16 +73,6 @@ class CampsiteController extends Controller
         return $campsite;
 
     }
-    public function edit($id)
-    {
-        $campsite = Campsite::find($id);
-
-        $tags = $campsite->tags;
-
-        $response = ['campsite' => $campsite, 'tags' => $tags];
-
-        return $response; 
-    }
 
     public function update($id, Request $request)
     {
@@ -107,12 +96,6 @@ class CampsiteController extends Controller
 
         return $campsite;
 
-    }
-
-    public function delete($id)
-    {
-        $campsite = Campsite::find($id);
-        $campsite->delete();
     }
 
     public function rate($id, Request $request) {

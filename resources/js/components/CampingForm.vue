@@ -46,7 +46,6 @@
         <button v-if="!edit" @click="add()" class="form-submit-btn">Create</button>
         <button v-if="edit" @click="update()" class="form-submit-btn">Update</button>
         <input type="hidden" name="_token" :value="csrf">
-        <slot></slot>
     </div>
 </template>
 <script>
@@ -54,7 +53,7 @@
 export default {
     data: function () {
         return {
-            csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            props: ['camp', 'tags'],
             camping: {
                 id: '', 
                 name: '',

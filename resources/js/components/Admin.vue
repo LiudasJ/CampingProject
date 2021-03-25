@@ -1,22 +1,56 @@
 <template>
-    <div class="admin-nav-container flex centering space-around flex-start mt-20 mb-20 relative">
-        <div v-if="auth" class="create-btn">
-            <a class="btn" href="#/new">Create New</a>
+    <div class="admin-panel-container flex">
+        <div class="admin-panel-nav">
+            <div>
+                <div class="adm-img-wrapper flex centering mb-20">
+                    <div class="adm-img-container flex centering">
+                        <i class="fas fa-user adm-img"></i>
+                    </div> 
+                </div>
+                <ul class="adm-nav-ul">
+                    <li @click="all">All Campings</li>
+                    <li>Latest Campings</li>
+                    <li>Top Rated Campings</li>
+                    <li>Create New Camping</li>
+                    <li>Import CSV</li>
+                </ul>
+            </div>
         </div>
-        <div v-if="auth" class="import-form flex space-between vertical-align">
-            <form action="" class="flex" @submit.prevent="importfile()" method="POST" enctype="multipart/form-data">
-                <label class="choose-file text-white main-bg-color flex centering">
-                    <span>Import</span>
-                    <input ref="myFile" v-on:change="onChange()" class="btn file-upload-btn" type="file" name="image">
-                </label>
-                <span class="flex vertical-align" style="margin-left: 5px" v-if="success">{{success}}</span>
-            </form>
-            <span v-if="file" class="main-text-color img-span">{{file.name}}</span>
-            <button v-if="file" @click="importFile()" class="upload-btn" type="submit">Upload</button>
-        </div>
-        <div>
-            <div class="log-btn" v-if="auth" @click="logout()">Log out</div>
-            <div class="log-btn" v-if="!auth"><a class="main-text-color" href="/">Log in</a></div>
+        <div v-if="campings" class="admin-panel-view">
+            <div class="flex centering wrap">
+                <div class="admin-record-container font-sm relative" v-for="camping in campings" :key="camping.id">
+                    <div class="adm-img-wrapper flex centering mb-20 mt-20">
+                        <div class="adm-img-container flex centering">
+                            <i class="fas fa-campground adm-img"></i>
+                        </div> 
+                    </div>
+                    <ul>
+                        <li><span class="main-text-color">Camp id:</span> {{camping.id}}</li>
+                        <li><span class="main-text-color">Name:</span> {{camping.name}}</li>
+                        <li><span class="main-text-color">City:</span> {{camping.city}}</li>
+                        <li><span class="main-text-color">Country:</span> {{camping.country}}</li>
+                        <li>
+                            <span class="main-text-color">Rating:</span> 
+                            <i v-for='index in camping.rating' :key='index' class="fas fa-star"></i>
+                        </li>
+                    </ul>
+                    <span v-if="camping.tags.length > 0">Provided tags:</span>
+                    <div v-for="tag in camping.tags" :key="tag.id">
+                        <i v-if="tag.name === 'Pool'" class="fas fa-swimmer"></i>
+                        <i v-if="tag.name === 'Wifi'" class="fas fa-wifi"></i>
+                        <i v-if="tag.name === 'Parking'" class="fas fa-parking"></i>
+                        <span class="tag-name">{{tag.name}}</span>
+                    </div>
+                    <div class="crud-btns-container flex absolute">
+                        <div class="crud-btn">
+                            <a v-bind:href="'/admin/edit/' + camping.id"><i class="fas fa-edit"></i></a>
+                        </div>
+                        <div class="crud-btn">
+                            <i @click="remove(camping.id)" class="fas fa-trash"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -24,32 +58,49 @@
 <script>
 
 export default {
-    props: ['auth'],
     data: function () {
         return {
-            file: '',
-            success: ''
+            campings: [],
+            method: ''
         }
     },
     methods: {
-        logout() {
-            this.$router.push({ path : '/' }); 
-            this.$store.dispatch('logout')
-        },
-        onChange() {
-            this.file = this.$refs.myFile.files[0];
-        },
-        importFile () {
-            const formData = new FormData();
-            formData.set('file', this.file);
-            axios.post('/file/import', formData)
+        all() {
+            axios.get('/admin/all')
             .then(response => {
                 if (response.status === 200) {
-                    this.file = null;
-                    this.success = 'success';
+                    this.campings = response.data.campings;
+                    this.method = 'all';
                 }
             })
+            .catch(e => {
+                console.log(e);
+            })
+        },
+        remove(id) {
+            axios.post('/admin/delete/' + id)
+            .then(response => {
+                if (response.status === 200) {
+                    this.result = response.data.result;
+                    this.refresh(this.method);
+                }
+            })
+            .catch(e => {
+                console.log(e);
+            })
+        },
+        refresh(method) {
+            switch (method) {
+                case 'all':
+                    this.all();
+                    break;
+            }
         }
-    }   
+    },
+    created() {
+        axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('access_token');
+    }
 }
 </script>
+     
+    

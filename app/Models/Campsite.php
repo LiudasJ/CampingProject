@@ -23,26 +23,31 @@ class Campsite extends Model
 
     use HasFactory;
 
-    public function reviews() {
+    public function reviews() 
+    {
         return $this->hasMany(Review::class);
     }
 
-    public function avgReview() {
+    public function avgReview() 
+    {
         return $this->reviews()->avg('review');
     }
 
-    public function tags() {
+    public function tags() 
+    {
         return $this->belongsToMany(Tags::class);
     }
 
-    public function latestCampsites() {
+    public function latestCampsites() 
+    {
 
         return $this::with(['tags'])
                 ->latest()
                 ->paginate(5);
     }
 
-    public function bestRatedCampsites() {
+    public function bestRatedCampsites() 
+    {
 
         return $this::with(['tags'])
                 ->withCount(['reviews as average_review' => function($query) {
@@ -54,7 +59,8 @@ class Campsite extends Model
 
     }
 
-    public function allCamps() {
+    public function allCamps() 
+    {
         return $this::with(['tags'])->orderBy('rating', 'desc')->get();
     }
 
