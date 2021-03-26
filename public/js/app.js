@@ -2012,9 +2012,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['camp', 'tags', 'action'],
   data: function data() {
     return {
-      props: ['camp', 'tags'],
       camping: {
         id: '',
         name: '',
@@ -2026,37 +2026,35 @@ __webpack_require__.r(__webpack_exports__);
       },
       campingTags: [],
       imgPath: '../images/camping.jpg',
-      alltags: [],
-      edit: null,
+      allTags: [],
       errors: []
     };
   },
   methods: {
-    add: function add() {
+    // NEXT TIME
+    // add() {
+    //     this.$store.dispatch('addCamping', {
+    //         name: this.camping.name,
+    //         country: this.camping.country,
+    //         city: this.camping.city,
+    //         website: this.camping.website,
+    //         rating: this.camping.rating,
+    //         tags: this.campingTags,
+    //         image: this.imgPath
+    //     })
+    //     .then( () => {
+    //         this.$router.push({ path : '/campings' })
+    //     })
+    //     .catch(e => {
+    //         if (e.response.status === 422) {
+    //             this.errors = e.response.data.errors
+    //         }
+    //     })
+    // },
+    update: function update() {
       var _this = this;
 
-      this.$store.dispatch('addCamping', {
-        name: this.camping.name,
-        country: this.camping.country,
-        city: this.camping.city,
-        website: this.camping.website,
-        rating: this.camping.rating,
-        tags: this.campingTags,
-        image: this.imgPath
-      }).then(function () {
-        _this.$router.push({
-          path: '/campings'
-        });
-      })["catch"](function (e) {
-        if (e.response.status === 422) {
-          _this.errors = e.response.data.errors;
-        }
-      });
-    },
-    update: function update() {
-      var _this2 = this;
-
-      axios.put('/campings/' + this.camping.id + '/update', {
+      axios.put('/admin/' + this.camping.id + '/update', {
         name: this.camping.name,
         country: this.camping.country,
         city: this.camping.city,
@@ -2066,43 +2064,36 @@ __webpack_require__.r(__webpack_exports__);
         tags: this.campingTags
       }).then(function (response) {
         if (response.status === 200) {
-          _this2.$router.push({
-            path: '/campings'
-          });
+          window.location.replace('/admin');
         }
       })["catch"](function (e) {
         if (e.response.status === 422) {
-          _this2.errors = e.response.data.errors;
+          _this.errors = e.response.data.errors;
         }
       });
     },
     fetchTags: function fetchTags() {
-      var _this3 = this;
+      var _this2 = this;
 
       axios.get('/tags/all').then(function (response) {
         if (response.status === 200) {
           console.log(response.data);
-          _this3.alltags = response.data;
+          _this2.allTags = response.data;
         }
       })["catch"](function (error) {
         console.log(error);
       });
     },
-    setRouterParams: function setRouterParams() {
-      var _this4 = this;
-
-      if (Object.keys(this.$route.params).length > 0) {
-        this.camping = this.$route.params.camping;
-        this.$route.params.tags.forEach(function (tag) {
-          _this4.campingTags.push(tag.id);
-        });
-        this.edit = this.$route.params.edit;
+    fillEditableData: function fillEditableData() {
+      if (this.action == 'edit') {
+        this.camping.id = this.camp.id, this.camping.name = this.camp.name, this.camping.country = this.camp.country, this.camping.city = this.camp.city, this.camping.website = this.camp.website, this.camping.rating = this.camp.rating, this.campingTags = this.tags;
       }
     }
   },
   created: function created() {
-    this.setRouterParams();
     this.fetchTags();
+    this.fillEditableData();
+    axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('access_token');
   }
 });
 
@@ -38597,7 +38588,9 @@ var render = function() {
     },
     [
       _c("h2", { staticClass: "main-text-color" }, [
-        _vm._v(_vm._s(_vm.edit ? "Edit Camping" : "Create New Camping"))
+        _vm._v(
+          _vm._s(_vm.action == "edit" ? "Update Camping" : "Add New Camping")
+        )
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "form-wrapper flex mt-20 centering" }, [
@@ -38729,7 +38722,7 @@ var render = function() {
                       }
                     }
                   },
-                  _vm._l(_vm.alltags, function(tag) {
+                  _vm._l(_vm.allTags, function(tag) {
                     return _c(
                       "option",
                       {
@@ -38737,8 +38730,6 @@ var render = function() {
                         domProps: {
                           value: tag.id,
                           selected: _vm.campingTags.includes(tag.id)
-                            ? true
-                            : false
                         }
                       },
                       [
@@ -38892,7 +38883,7 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      !_vm.edit
+      _vm.action == "add"
         ? _c(
             "button",
             {
@@ -38907,7 +38898,7 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _vm.edit
+      _vm.action == "edit"
         ? _c(
             "button",
             {
@@ -38920,12 +38911,7 @@ var render = function() {
             },
             [_vm._v("Update")]
           )
-        : _vm._e(),
-      _vm._v(" "),
-      _c("input", {
-        attrs: { type: "hidden", name: "_token" },
-        domProps: { value: _vm.csrf }
-      })
+        : _vm._e()
     ]
   )
 }

@@ -1,6 +1,6 @@
 <template>
     <div class="form-container flex flex-col centering space-around" action="POST">
-        <h2 class="main-text-color">{{edit ? "Edit Camping" : "Create New Camping"}}</h2>
+        <h2 class="main-text-color">{{action == 'edit' ? 'Update Camping' : 'Add New Camping'}}</h2>
         <div class="form-wrapper flex mt-20 centering">
             <div class="form-chunk flex flex-col centering flex-start">
                 <div class="form-element flex flex-col relative centering">
@@ -17,9 +17,9 @@
                     <span class="w-100 main-text-color">Tags:</span>
                     <select v-model="campingTags" name="tags" multiple>
                         <option 
-                            v-for="tag in alltags" :key="tag.id" 
+                            v-for="tag in allTags" :key="tag.id" 
                             v-bind:value="tag.id"
-                            :selected="campingTags.includes(tag.id) ? true: false">
+                            :selected="campingTags.includes(tag.id)">
                             {{tag.name}}
                         </option>
                     </select>
@@ -43,17 +43,17 @@
                 </div>
             </div>
         </div>
-        <button v-if="!edit" @click="add()" class="form-submit-btn">Create</button>
-        <button v-if="edit" @click="update()" class="form-submit-btn">Update</button>
-        <input type="hidden" name="_token" :value="csrf">
+        <button v-if="action == 'add'" @click="add()" class="form-submit-btn">Create</button>
+        <button v-if="action == 'edit'" @click="update()" class="form-submit-btn">Update</button>
+        <!-- <input type="hidden" name="_token" :value="csrf"> -->
     </div>
 </template>
 <script>
 
 export default {
+    props: ['camp', 'tags', 'action'],
     data: function () {
         return {
-            props: ['camp', 'tags'],
             camping: {
                 id: '', 
                 name: '',
@@ -65,33 +65,33 @@ export default {
             },
             campingTags: [],
             imgPath: '../images/camping.jpg',
-            alltags: [],
-            edit: null,
+            allTags: [],
             errors: []
         }
     },
     methods: {
-        add() {
-            this.$store.dispatch('addCamping', {
-                name: this.camping.name,
-                country: this.camping.country,
-                city: this.camping.city,
-                website: this.camping.website,
-                rating: this.camping.rating,
-                tags: this.campingTags,
-                image: this.imgPath
-            })
-            .then( () => {
-                this.$router.push({ path : '/campings' })
-            })
-            .catch(e => {
-                if (e.response.status === 422) {
-                    this.errors = e.response.data.errors
-                }
-            })
-        },
+        // NEXT TIME
+        // add() {
+        //     this.$store.dispatch('addCamping', {
+        //         name: this.camping.name,
+        //         country: this.camping.country,
+        //         city: this.camping.city,
+        //         website: this.camping.website,
+        //         rating: this.camping.rating,
+        //         tags: this.campingTags,
+        //         image: this.imgPath
+        //     })
+        //     .then( () => {
+        //         this.$router.push({ path : '/campings' })
+        //     })
+        //     .catch(e => {
+        //         if (e.response.status === 422) {
+        //             this.errors = e.response.data.errors
+        //         }
+        //     })
+        // },
         update() {
-            axios.put('/campings/' + this.camping.id + '/update', {
+            axios.put('/admin/' + this.camping.id + '/update', {
                 name: this.camping.name,
                 country: this.camping.country,
                 city: this.camping.city,
@@ -102,7 +102,7 @@ export default {
             })
             .then(response => {
                 if (response.status === 200) {
-                    this.$router.push({ path : '/campings' })
+                    window.location.replace('/admin');
                 }
             })
             .catch(e => {
@@ -116,7 +116,7 @@ export default {
             .then (response => {
                 if (response.status === 200) {
                     console.log(response.data);
-                    this.alltags = response.data
+                    this.allTags = response.data
                 }
             })
             .catch(error => {
@@ -124,19 +124,22 @@ export default {
 
             })
         },
-        setRouterParams() {
-            if (Object.keys(this.$route.params).length > 0) {
-                this.camping = this.$route.params.camping;
-                this.$route.params.tags.forEach(tag=>{
-                    this.campingTags.push(tag.id);
-                });
-                this.edit = this.$route.params.edit;
+        fillEditableData () {
+            if (this.action == 'edit') {
+                this.camping.id = this.camp.id,
+                this.camping.name = this.camp.name,
+                this.camping.country = this.camp.country,
+                this.camping.city = this.camp.city,
+                this.camping.website = this.camp.website,
+                this.camping.rating = this.camp.rating,
+                this.campingTags = this.tags
             }
         }
     },
     created() {
-      this.setRouterParams(); 
       this.fetchTags();
+      this.fillEditableData();
+      axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('access_token');
     }
 };
 </script>

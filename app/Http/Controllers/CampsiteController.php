@@ -52,52 +52,6 @@ class CampsiteController extends Controller
         ]);
     }
 
-    public function store (Request $request)
-    {
-
-        $this->validateCamping();
-
-        $campsite = new Campsite();
-
-        $campsite->name = $request->name;
-        $campsite->country = $request->country;
-        $campsite->city = $request->city;
-        $campsite->website = $request->website;
-        $campsite->rating = $request->rating;
-        $campsite->img_path = $request->image;
-
-        $campsite->save();
-
-        $campsite->tags()->attach($request->tags);
-
-        return $campsite;
-
-    }
-
-    public function update($id, Request $request)
-    {
-
-        $this->validateCamping();
-
-        $campsite = Campsite::find($id);
-
-        $campsite->name = $request->name;
-        $campsite->country = $request->country;
-        $campsite->city = $request->city;
-        $campsite->website = $request->website;
-        $campsite->rating = $request->rating;
-        $campsite->save();
-
-        $tags = $campsite->tags->pluck('id');
-
-        $campsite->tags()->detach($tags);
-
-        $campsite->tags()->attach($request->tags);
-
-        return $campsite;
-
-    }
-
     public function rate($id, Request $request) {
 
         $review = new Review();
@@ -105,16 +59,5 @@ class CampsiteController extends Controller
         
         return response(['result' => 'Successfuly submitted'], 200);
 
-    }
-
-    public function validateCamping() {
-
-        return request()->validate([
-            'name' => 'required',
-            'country' => 'required|max:50',
-            'city' => 'required|max:50',
-            'website' => 'required|max:255',
-            'rating' => 'required|max:5'
-        ]);
     }
 }

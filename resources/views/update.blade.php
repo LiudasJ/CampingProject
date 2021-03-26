@@ -1,5 +1,5 @@
 @extends ('layout')
 
 @section('content')
-    <campingform-component :camp="{{$campsite}}" :tags="{{$tags}}"></campingform-component>
+    <campingform-component v-bind:camp='{{$campsite}}' v-bind:tags='{{$tags}}' action="edit"></campingform-component>
 @endsection
