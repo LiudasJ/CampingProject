@@ -17,6 +17,21 @@ class AdminController extends Controller
         $camping = new Campsite();
         return response()->json(["campings" => $camping->allCamps()], 200);
     }
+    public function latest()
+    {
+        
+        $camping = new Campsite();
+        return response()->json(["campings" => $camping->latestCampsites()], 200);
+
+    }
+
+    public function top() 
+    {
+
+        $camping = new Campsite();
+        return response()->json(["campings" => $camping->bestRatedCampsites()], 200);
+
+    }
 
     public function delete($id)
     {

@@ -9,9 +9,9 @@
                 </div>
                 <ul class="adm-nav-ul">
                     <li @click="all">All Campings</li>
-                    <li>Latest Campings</li>
-                    <li>Top Rated Campings</li>
-                    <li>Create New Camping</li>
+                    <li @click="latest">Latest Campings</li>
+                    <li @click="top">Top Rated Campings</li>
+                    <li><a href="/admin/add">Create New Camping</a></li>
                     <li>Import CSV</li>
                 </ul>
             </div>
@@ -33,8 +33,9 @@
                             <span class="main-text-color">Rating:</span> 
                             <i v-for='index in camping.rating' :key='index' class="fas fa-star"></i>
                         </li>
+                        <li><span class="main-text-color">Review:</span> {{camping.average_review}}</li>
                     </ul>
-                    <span v-if="camping.tags.length > 0">Provided tags:</span>
+                    <span v-if="camping.tags && camping.tags.length > 0">Provided tags:</span>
                     <div v-for="tag in camping.tags" :key="tag.id">
                         <i v-if="tag.name === 'Pool'" class="fas fa-swimmer"></i>
                         <i v-if="tag.name === 'Wifi'" class="fas fa-wifi"></i>
@@ -71,6 +72,30 @@ export default {
                 if (response.status === 200) {
                     this.campings = response.data.campings;
                     this.method = 'all';
+                }
+            })
+            .catch(e => {
+                console.log(e);
+            })
+        },
+        latest() {
+            axios.get('/admin/latest')
+            .then(response => {
+                if (response.status === 200) {
+                    this.campings = response.data.campings.data;
+                    this.method = 'latest';
+                }
+            })
+            .catch(e => {
+                console.log(e);
+            })
+        },
+        top() {
+            axios.get('/admin/top')
+            .then(response => {
+                if (response.status === 200) {
+                    this.campings = response.data.campings;
+                    this.method = 'top';
                 }
             })
             .catch(e => {

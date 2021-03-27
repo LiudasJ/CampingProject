@@ -42,6 +42,9 @@ class Campsite extends Model
     {
 
         return $this::with(['tags'])
+                ->withCount(['reviews as average_review' => function($query) {
+                    $query->select(Review::raw('coalesce(avg(review),0)'));
+                }])
                 ->latest()
                 ->paginate(5);
     }
@@ -61,7 +64,12 @@ class Campsite extends Model
 
     public function allCamps() 
     {
-        return $this::with(['tags'])->orderBy('rating', 'desc')->get();
+        return $this::with(['tags'])
+                ->withCount(['reviews as average_review' => function($query) {
+                    $query->select(Review::raw('coalesce(avg(review),0)'));
+                }])
+                ->orderBy('rating', 'desc')
+                ->get();
     }
 
 }

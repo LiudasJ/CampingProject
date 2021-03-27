@@ -1902,6 +1902,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -1922,14 +1923,38 @@ __webpack_require__.r(__webpack_exports__);
         console.log(e);
       });
     },
-    remove: function remove(id) {
+    latest: function latest() {
       var _this2 = this;
+
+      axios.get('/admin/latest').then(function (response) {
+        if (response.status === 200) {
+          _this2.campings = response.data.campings.data;
+          _this2.method = 'latest';
+        }
+      })["catch"](function (e) {
+        console.log(e);
+      });
+    },
+    top: function top() {
+      var _this3 = this;
+
+      axios.get('/admin/top').then(function (response) {
+        if (response.status === 200) {
+          _this3.campings = response.data.campings;
+          _this3.method = 'top';
+        }
+      })["catch"](function (e) {
+        console.log(e);
+      });
+    },
+    remove: function remove(id) {
+      var _this4 = this;
 
       axios.post('/admin/delete/' + id).then(function (response) {
         if (response.status === 200) {
-          _this2.result = response.data.result;
+          _this4.result = response.data.result;
 
-          _this2.refresh(_this2.method);
+          _this4.refresh(_this4.method);
         }
       })["catch"](function (e) {
         console.log(e);
@@ -2031,28 +2056,27 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    // NEXT TIME
-    // add() {
-    //     this.$store.dispatch('addCamping', {
-    //         name: this.camping.name,
-    //         country: this.camping.country,
-    //         city: this.camping.city,
-    //         website: this.camping.website,
-    //         rating: this.camping.rating,
-    //         tags: this.campingTags,
-    //         image: this.imgPath
-    //     })
-    //     .then( () => {
-    //         this.$router.push({ path : '/campings' })
-    //     })
-    //     .catch(e => {
-    //         if (e.response.status === 422) {
-    //             this.errors = e.response.data.errors
-    //         }
-    //     })
-    // },
-    update: function update() {
+    add: function add() {
       var _this = this;
+
+      axios.post('/admin/add', {
+        name: this.camping.name,
+        country: this.camping.country,
+        city: this.camping.city,
+        website: this.camping.website,
+        rating: this.camping.rating,
+        tags: this.campingTags,
+        image: this.imgPath
+      }).then(function () {
+        window.location.replace('/admin');
+      })["catch"](function (e) {
+        if (e.response.status === 422) {
+          _this.errors = e.response.data.errors;
+        }
+      });
+    },
+    update: function update() {
+      var _this2 = this;
 
       axios.put('/admin/' + this.camping.id + '/update', {
         name: this.camping.name,
@@ -2068,17 +2092,17 @@ __webpack_require__.r(__webpack_exports__);
         }
       })["catch"](function (e) {
         if (e.response.status === 422) {
-          _this.errors = e.response.data.errors;
+          _this2.errors = e.response.data.errors;
         }
       });
     },
     fetchTags: function fetchTags() {
-      var _this2 = this;
+      var _this3 = this;
 
       axios.get('/tags/all').then(function (response) {
         if (response.status === 200) {
           console.log(response.data);
-          _this2.allTags = response.data;
+          _this3.allTags = response.data;
         }
       })["catch"](function (error) {
         console.log(error);
@@ -38401,11 +38425,11 @@ var render = function() {
         _c("ul", { staticClass: "adm-nav-ul" }, [
           _c("li", { on: { click: _vm.all } }, [_vm._v("All Campings")]),
           _vm._v(" "),
-          _c("li", [_vm._v("Latest Campings")]),
+          _c("li", { on: { click: _vm.latest } }, [_vm._v("Latest Campings")]),
           _vm._v(" "),
-          _c("li", [_vm._v("Top Rated Campings")]),
+          _c("li", { on: { click: _vm.top } }, [_vm._v("Top Rated Campings")]),
           _vm._v(" "),
-          _c("li", [_vm._v("Create New Camping")]),
+          _vm._m(1),
           _vm._v(" "),
           _c("li", [_vm._v("Import CSV")])
         ])
@@ -38425,7 +38449,7 @@ var render = function() {
                   staticClass: "admin-record-container font-sm relative"
                 },
                 [
-                  _vm._m(1, true),
+                  _vm._m(2, true),
                   _vm._v(" "),
                   _c("ul", [
                     _c("li", [
@@ -38471,10 +38495,17 @@ var render = function() {
                         })
                       ],
                       2
-                    )
+                    ),
+                    _vm._v(" "),
+                    _c("li", [
+                      _c("span", { staticClass: "main-text-color" }, [
+                        _vm._v("Review:")
+                      ]),
+                      _vm._v(" " + _vm._s(camping.average_review))
+                    ])
                   ]),
                   _vm._v(" "),
-                  camping.tags.length > 0
+                  camping.tags && camping.tags.length > 0
                     ? _c("span", [_vm._v("Provided tags:")])
                     : _vm._e(),
                   _vm._v(" "),
@@ -38541,6 +38572,14 @@ var staticRenderFns = [
       _c("div", { staticClass: "adm-img-container flex centering" }, [
         _c("i", { staticClass: "fas fa-user adm-img" })
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [
+      _c("a", { attrs: { href: "/admin/add" } }, [_vm._v("Create New Camping")])
     ])
   },
   function() {

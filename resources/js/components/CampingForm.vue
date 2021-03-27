@@ -70,26 +70,25 @@ export default {
         }
     },
     methods: {
-        // NEXT TIME
-        // add() {
-        //     this.$store.dispatch('addCamping', {
-        //         name: this.camping.name,
-        //         country: this.camping.country,
-        //         city: this.camping.city,
-        //         website: this.camping.website,
-        //         rating: this.camping.rating,
-        //         tags: this.campingTags,
-        //         image: this.imgPath
-        //     })
-        //     .then( () => {
-        //         this.$router.push({ path : '/campings' })
-        //     })
-        //     .catch(e => {
-        //         if (e.response.status === 422) {
-        //             this.errors = e.response.data.errors
-        //         }
-        //     })
-        // },
+        add() {
+            axios.post('/admin/add', {
+                name: this.camping.name,
+                country: this.camping.country,
+                city: this.camping.city,
+                website: this.camping.website,
+                rating: this.camping.rating,
+                tags: this.campingTags,
+                image: this.imgPath
+            })
+            .then( () => {
+                window.location.replace('/admin')
+            })
+            .catch(e => {
+                if (e.response.status === 422) {
+                    this.errors = e.response.data.errors
+                }
+            })
+        },
         update() {
             axios.put('/admin/' + this.camping.id + '/update', {
                 name: this.camping.name,
