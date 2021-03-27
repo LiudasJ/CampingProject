@@ -32,7 +32,7 @@
                         <li><a class="font-bold" href="/campings/latest">Latest Ones</a></li>
                         <li><a class="font-bold" href="/contacts">Contact Us</a></li>
                         @auth
-                        <li><a class="font-bold" href="/admin">Admin Panel</a></li>
+                        <li><a class="font-bold" href="/admin/all">Admin Panel</a></li>
                         @endauth
                     </ul>
                 </nav>

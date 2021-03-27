@@ -19,12 +19,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::get('/admin', 'App\Http\Controllers\AdminController@index');
     Route::get('/admin/all', 'App\Http\Controllers\AdminController@all');
     Route::get('/admin/latest', 'App\Http\Controllers\AdminController@latest');
     Route::get('/admin/top', 'App\Http\Controllers\AdminController@top');
     Route::get('/tags/all', 'App\Http\Controllers\TagsController@tags');
-    Route::get('/admin/edit/{id}', 'App\Http\Controllers\AdminController@edit');
+    Route::get('/admin/edit/{action}/{id}', 'App\Http\Controllers\AdminController@edit');
     Route::get('/admin/add', function() {
         return view('create');
     });

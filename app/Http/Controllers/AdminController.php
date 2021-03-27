@@ -7,21 +7,26 @@ use App\Models\Campsite;
 
 class AdminController extends Controller
 {
-    public function index() {
-        return view('admin', [
-            ["admin" => 'success']
-        ]);
-    }
+
     public function all() 
     {
         $camping = new Campsite();
-        return response()->json(["campings" => $camping->allCamps()], 200);
+
+        return view('admin', [
+            "campings" => $camping->allCamps(),
+            "action" => "all"
+        ]);
+
     }
     public function latest()
     {
         
         $camping = new Campsite();
-        return response()->json(["campings" => $camping->latestCampsites()], 200);
+
+        return view('admin', [
+            "campings" => $camping->latestCampsites(),
+            "action" => "latest"
+        ]);
 
     }
 
@@ -29,7 +34,11 @@ class AdminController extends Controller
     {
 
         $camping = new Campsite();
-        return response()->json(["campings" => $camping->bestRatedCampsites()], 200);
+        return view('admin', [
+            "campings" => $camping->bestRatedCampsites(),
+            "action" => "top"
+        ]);
+
 
     }
 
@@ -64,7 +73,7 @@ class AdminController extends Controller
 
     }
     
-    public function edit($id)
+    public function edit($action, $id)
     {
         $campsite = Campsite::find($id);
 
@@ -72,7 +81,8 @@ class AdminController extends Controller
 
         return view('update', [
             "campsite" => $campsite,
-            "tags" => $tags
+            "tags" => $tags,
+            "action" => $action
         ]);
 
     }

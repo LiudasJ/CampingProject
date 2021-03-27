@@ -1904,9 +1904,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['initdata', 'action'],
   data: function data() {
     return {
-      campings: [],
+      campings: this.initdata,
       method: ''
     };
   },
@@ -1952,23 +1953,15 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.post('/admin/delete/' + id).then(function (response) {
         if (response.status === 200) {
-          _this4.result = response.data.result;
-
-          _this4.refresh(_this4.method);
+          window.location.replace('/admin/' + _this4.action);
         }
       })["catch"](function (e) {
         console.log(e);
       });
-    },
-    refresh: function refresh(method) {
-      switch (method) {
-        case 'all':
-          this.all();
-          break;
-      }
     }
   },
   created: function created() {
+    console.log('this.initdata');
     axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('access_token');
   }
 });
@@ -2035,9 +2028,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['camp', 'tags', 'action'],
+  props: ['camp', 'tags', 'action', 'method'],
   data: function data() {
     return {
       camping: {
@@ -2068,7 +2060,7 @@ __webpack_require__.r(__webpack_exports__);
         tags: this.campingTags,
         image: this.imgPath
       }).then(function () {
-        window.location.replace('/admin');
+        window.location.replace('/admin/all');
       })["catch"](function (e) {
         if (e.response.status === 422) {
           _this.errors = e.response.data.errors;
@@ -2088,7 +2080,7 @@ __webpack_require__.r(__webpack_exports__);
         tags: this.campingTags
       }).then(function (response) {
         if (response.status === 200) {
-          window.location.replace('/admin');
+          window.location.replace('/admin/' + _this2.method);
         }
       })["catch"](function (e) {
         if (e.response.status === 422) {
@@ -38418,23 +38410,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "admin-panel-container flex" }, [
-    _c("div", { staticClass: "admin-panel-nav" }, [
-      _c("div", [
-        _vm._m(0),
-        _vm._v(" "),
-        _c("ul", { staticClass: "adm-nav-ul" }, [
-          _c("li", { on: { click: _vm.all } }, [_vm._v("All Campings")]),
-          _vm._v(" "),
-          _c("li", { on: { click: _vm.latest } }, [_vm._v("Latest Campings")]),
-          _vm._v(" "),
-          _c("li", { on: { click: _vm.top } }, [_vm._v("Top Rated Campings")]),
-          _vm._v(" "),
-          _vm._m(1),
-          _vm._v(" "),
-          _c("li", [_vm._v("Import CSV")])
-        ])
-      ])
-    ]),
+    _vm._m(0),
     _vm._v(" "),
     _vm.campings
       ? _c("div", { staticClass: "admin-panel-view" }, [
@@ -38449,7 +38425,7 @@ var render = function() {
                   staticClass: "admin-record-container font-sm relative"
                 },
                 [
-                  _vm._m(2, true),
+                  _vm._m(1, true),
                   _vm._v(" "),
                   _c("ul", [
                     _c("li", [
@@ -38536,7 +38512,12 @@ var render = function() {
                       _c("div", { staticClass: "crud-btn" }, [
                         _c(
                           "a",
-                          { attrs: { href: "/admin/edit/" + camping.id } },
+                          {
+                            attrs: {
+                              href:
+                                "/admin/edit/" + _vm.action + "/" + camping.id
+                            }
+                          },
                           [_c("i", { staticClass: "fas fa-edit" })]
                         )
                       ]),
@@ -38568,18 +38549,51 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "adm-img-wrapper flex centering mb-20" }, [
-      _c("div", { staticClass: "adm-img-container flex centering" }, [
-        _c("i", { staticClass: "fas fa-user adm-img" })
+    return _c("div", { staticClass: "admin-panel-nav" }, [
+      _c("div", [
+        _c("div", { staticClass: "adm-img-wrapper flex centering mb-20" }, [
+          _c("div", { staticClass: "adm-img-container flex centering" }, [
+            _c("i", { staticClass: "fas fa-user adm-img" })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("ul", { staticClass: "adm-nav-ul" }, [
+          _c("li", [
+            _c("a", { attrs: { href: "/admin/all" } }, [_vm._v("All Campings")])
+          ]),
+          _vm._v(" "),
+          _c("li", [
+            _c("a", { attrs: { href: "/admin/latest" } }, [
+              _vm._v("Latest Campings")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("li", [
+            _c("a", { attrs: { href: "/admin/top" } }, [
+              _vm._v("Top Rated Campings")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("li", [
+            _c(
+              "a",
+              { staticClass: "alt-text-color", attrs: { href: "/admin/add" } },
+              [_vm._v("Create New Camping")]
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", [
+            _c(
+              "a",
+              {
+                staticClass: "alt-text-color",
+                attrs: { href: "/admin/import" }
+              },
+              [_vm._v("Import CSV")]
+            )
+          ])
+        ])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", [
-      _c("a", { attrs: { href: "/admin/add" } }, [_vm._v("Create New Camping")])
     ])
   },
   function() {

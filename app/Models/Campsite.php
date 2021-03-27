@@ -46,7 +46,8 @@ class Campsite extends Model
                     $query->select(Review::raw('coalesce(avg(review),0)'));
                 }])
                 ->latest()
-                ->paginate(5);
+                ->take(5)
+                ->get();
     }
 
     public function bestRatedCampsites() 

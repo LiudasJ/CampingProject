@@ -176,6 +176,9 @@ body {
   .main-text-color {
     color:#8bb3ae;
   }
+  .alt-text-color {
+    color: #3e4a79;
+  }
   .main-bg-color {
     background-color:#3e4a79
   }
@@ -439,6 +442,7 @@ body {
     padding: 20px;
     background-color: #dedede;
     border: 2px solid #3e4a79;
+    height: 350px;
 
   }
   .admin-panel-view {
@@ -471,8 +475,8 @@ body {
   .admin-record-container {
     height: 350px;
     width: 250px;
-    margin: 10px;
-    padding: 10px;
+    padding: 20px;
+    margin: 0 10px 10px 0;
     border: 2px solid #3e4a79;
     flex-shrink: 0;
   }

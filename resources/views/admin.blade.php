@@ -1,5 +1,5 @@
 @extends ('layout')
 
 @section('content')
-    <admin-component></admin-component>
+    <admin-component v-bind:initdata="{{$campings}}" action={{$action}}></admin-component>
 @endsection

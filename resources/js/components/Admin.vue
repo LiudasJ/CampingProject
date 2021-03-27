@@ -8,11 +8,11 @@
                     </div> 
                 </div>
                 <ul class="adm-nav-ul">
-                    <li @click="all">All Campings</li>
-                    <li @click="latest">Latest Campings</li>
-                    <li @click="top">Top Rated Campings</li>
-                    <li><a href="/admin/add">Create New Camping</a></li>
-                    <li>Import CSV</li>
+                    <li><a href="/admin/all">All Campings</a></li>
+                    <li><a href="/admin/latest">Latest Campings</a></li>
+                    <li><a href="/admin/top">Top Rated Campings</a></li>
+                    <li><a href="/admin/add" class="alt-text-color">Create New Camping</a></li>
+                    <li><a href="/admin/import" class="alt-text-color">Import CSV</a></li>
                 </ul>
             </div>
         </div>
@@ -44,7 +44,7 @@
                     </div>
                     <div class="crud-btns-container flex absolute">
                         <div class="crud-btn">
-                            <a v-bind:href="'/admin/edit/' + camping.id"><i class="fas fa-edit"></i></a>
+                            <a v-bind:href="'/admin/edit/'+ action + '/' + camping.id"><i class="fas fa-edit"></i></a>
                         </div>
                         <div class="crud-btn">
                             <i @click="remove(camping.id)" class="fas fa-trash"></i>
@@ -59,9 +59,10 @@
 <script>
 
 export default {
+    props: ['initdata', 'action'],
     data: function () {
         return {
-            campings: [],
+            campings: this.initdata,
             method: ''
         }
     },
@@ -106,23 +107,16 @@ export default {
             axios.post('/admin/delete/' + id)
             .then(response => {
                 if (response.status === 200) {
-                    this.result = response.data.result;
-                    this.refresh(this.method);
+                    window.location.replace('/admin/' + this.action);
                 }
             })
             .catch(e => {
                 console.log(e);
             })
-        },
-        refresh(method) {
-            switch (method) {
-                case 'all':
-                    this.all();
-                    break;
-            }
         }
     },
     created() {
+        console.log('this.initdata');
         axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('access_token');
     }
 }

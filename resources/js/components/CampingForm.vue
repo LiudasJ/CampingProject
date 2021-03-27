@@ -45,13 +45,12 @@
         </div>
         <button v-if="action == 'add'" @click="add()" class="form-submit-btn">Create</button>
         <button v-if="action == 'edit'" @click="update()" class="form-submit-btn">Update</button>
-        <!-- <input type="hidden" name="_token" :value="csrf"> -->
     </div>
 </template>
 <script>
 
 export default {
-    props: ['camp', 'tags', 'action'],
+    props: ['camp', 'tags', 'action', 'method'],
     data: function () {
         return {
             camping: {
@@ -81,7 +80,7 @@ export default {
                 image: this.imgPath
             })
             .then( () => {
-                window.location.replace('/admin')
+                window.location.replace('/admin/all')
             })
             .catch(e => {
                 if (e.response.status === 422) {
@@ -101,7 +100,7 @@ export default {
             })
             .then(response => {
                 if (response.status === 200) {
-                    window.location.replace('/admin');
+                    window.location.replace('/admin/' + this.method);
                 }
             })
             .catch(e => {
