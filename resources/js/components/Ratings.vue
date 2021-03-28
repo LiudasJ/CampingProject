@@ -1,7 +1,7 @@
 <template>
     <div class="ratings-controller p-20">
         <div class="ratings-heading">
-            <h2 class="heading-color">Review our camping!</h2>
+            <h2 class="heading-color">Leave a Review for this camping!</h2>
         </div>
         <div class="ratings-scale-container mb-20">
             <i class="far fa-star ps-10 pointer" 

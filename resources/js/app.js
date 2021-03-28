@@ -65,3 +65,12 @@ controls.forEach(arrow => {
         carousel.style.transform = `translateX(${translateX}px)`
     })
 })
+
+const navBtns = document.querySelectorAll('.nav-control-btn');
+const navContainer = document.querySelector('.navigation-container');
+
+navBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        navContainer.classList.toggle('active-nav');
+    })
+})

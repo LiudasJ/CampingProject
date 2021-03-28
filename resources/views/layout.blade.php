@@ -22,21 +22,28 @@
         <div class="header-image absolute"></div>
         <div class="header-content flex flex-col centering">
             <div class="header-topic">
-                <h1 class="text-white">Welcome to Campings.com</h1>
+                <h1 class="text-white text-center">Lorem, ipsum.</h1>
+                <p class="text-white text-center font-bold">Lorem ipsum dolor sit amet?</p>
             </div>
-            <div class="navigation-container mt-20">
-                <nav>
-                    <ul class="flex space-between">
-                        <li><a class="font-bold" href="/">All Campings</a></li>
-                        <li><a class="font-bold" href="/campings/top">Top Rated</a></li>
-                        <li><a class="font-bold" href="/campings/latest">Latest Ones</a></li>
-                        <li><a class="font-bold" href="/contacts">Contact Us</a></li>
-                        @auth
-                        <li><a class="font-bold" href="/admin/all">Admin Panel</a></li>
-                        @endauth
-                    </ul>
-                </nav>
+            <div class="alt-btn flex centering mobile-nav-open-btn">
+                <span class="nav-control-btn text-white">Find now!</span>
             </div>
+        </div>
+        <div class="navigation-container mt-20">
+            <nav>
+                <ul class="flex space-between nav-ul">
+                    <li class="mb-20 mobile-nav-close-btn">
+                        <i class="fas fa-times-circle nav-control-btn"></i>
+                    </li>
+                    <li><a class="font-bold nav-link" href="/">All</a></li>
+                    <li><a class="font-bold nav-link" href="/campings/top">Top Rated</a></li>
+                    <li><a class="font-bold nav-link" href="/campings/latest">Latest</a></li>
+                    <li><a class="font-bold nav-link" href="/contacts">Contacts</a></li>
+                    @auth
+                    <li><a class="font-bold nav-link" href="/admin/all">Admin</a></li>
+                    @endauth
+                </ul>
+            </nav>
         </div>
     </header>
     <div id="app" class="p-20">

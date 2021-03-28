@@ -1961,7 +1961,6 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    console.log('this.initdata');
     axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('access_token');
   }
 });
@@ -2126,8 +2125,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
-//
 //
 //
 //
@@ -2539,6 +2536,13 @@ controls.forEach(function (arrow) {
     }
 
     carousel.style.transform = "translateX(".concat(translateX, "px)");
+  });
+});
+var navBtns = document.querySelectorAll('.nav-control-btn');
+var navContainer = document.querySelector('.navigation-container');
+navBtns.forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    navContainer.classList.toggle('active-nav');
   });
 });
 
@@ -38477,7 +38481,10 @@ var render = function() {
                       _c("span", { staticClass: "main-text-color" }, [
                         _vm._v("Review:")
                       ]),
-                      _vm._v(" " + _vm._s(camping.average_review))
+                      _vm._v(
+                        " " +
+                          _vm._s(parseFloat(camping.average_review).toFixed(1))
+                      )
                     ])
                   ]),
                   _vm._v(" "),
@@ -38991,112 +38998,110 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      {
-        staticClass:
-          "camping-card flex centering flex-col space-around relative shadow"
-      },
-      [
-        _c("h2", { staticClass: "text-center" }, [
-          _c("span", { staticClass: "font-bold font-lg main-text-color" }, [
-            _vm._v(_vm._s(_vm.camping.name))
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", {
-          staticClass: "camp-image relative",
-          style: [
-            _vm.camping.img_path
-              ? {
-                  "background-image":
-                    "url(../storage/" + _vm.camping.img_path + ")"
-                }
-              : { background: "#FFF" }
-          ]
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "camping-card-heading" }, [
-          _c("div", { staticClass: "location-tags-container flex" }, [
-            _c("div", { staticClass: "location-container" }, [
-              _c("i", { staticClass: "fas fa-map-marker-alt" }),
-              _vm._v(" "),
-              _c("span", { staticClass: "font-bold font-sm main-text-color" }, [
-                _vm._v(_vm._s(_vm.camping.country) + ",")
-              ]),
-              _vm._v(" "),
-              _c("span", { staticClass: "font-bold font-sm main-text-color" }, [
-                _vm._v(_vm._s(_vm.camping.city))
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "rating-container mt-10 flex" },
-                _vm._l(_vm.rating, function(index) {
-                  return _c("i", { key: index, staticClass: "fas fa-star" })
-                }),
-                0
-              )
+  return _c(
+    "div",
+    {
+      staticClass:
+        "camping-card flex centering flex-col space-around relative shadow"
+    },
+    [
+      _c("h2", { staticClass: "text-center" }, [
+        _c("span", { staticClass: "font-bold font-lg main-text-color" }, [
+          _vm._v(_vm._s(_vm.camping.name))
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", {
+        staticClass: "camp-image relative",
+        style: [
+          _vm.camping.img_path
+            ? {
+                "background-image":
+                  "url(../storage/" + _vm.camping.img_path + ")"
+              }
+            : { background: "#FFF" }
+        ]
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "camping-card-heading" }, [
+        _c("div", { staticClass: "location-tags-container flex" }, [
+          _c("div", { staticClass: "location-container" }, [
+            _c("i", { staticClass: "fas fa-map-marker-alt" }),
+            _vm._v(" "),
+            _c("span", { staticClass: "font-bold font-sm main-text-color" }, [
+              _vm._v(_vm._s(_vm.camping.country) + ",")
+            ]),
+            _vm._v(" "),
+            _c("span", { staticClass: "font-bold font-sm main-text-color" }, [
+              _vm._v(_vm._s(_vm.camping.city))
             ]),
             _vm._v(" "),
             _c(
               "div",
-              { staticClass: "tags-container" },
-              _vm._l(_vm.camping.tags, function(tag) {
-                return _c("div", { key: tag.id }, [
-                  tag.name === "Pool"
-                    ? _c("i", { staticClass: "fas fa-swimmer" })
-                    : _vm._e(),
-                  _vm._v(" "),
-                  tag.name === "Wifi"
-                    ? _c("i", { staticClass: "fas fa-wifi" })
-                    : _vm._e(),
-                  _vm._v(" "),
-                  tag.name === "Parking"
-                    ? _c("i", { staticClass: "fas fa-parking" })
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "tag-name" }, [
-                    _vm._v(_vm._s(tag.name))
-                  ])
-                ])
+              { staticClass: "rating-container mt-10 flex" },
+              _vm._l(_vm.rating, function(index) {
+                return _c("i", { key: index, staticClass: "fas fa-star" })
               }),
               0
             )
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "tags-container" },
+            _vm._l(_vm.camping.tags, function(tag) {
+              return _c("div", { key: tag.id }, [
+                tag.name === "Pool"
+                  ? _c("i", { staticClass: "fas fa-swimmer" })
+                  : _vm._e(),
+                _vm._v(" "),
+                tag.name === "Wifi"
+                  ? _c("i", { staticClass: "fas fa-wifi" })
+                  : _vm._e(),
+                _vm._v(" "),
+                tag.name === "Parking"
+                  ? _c("i", { staticClass: "fas fa-parking" })
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("span", { staticClass: "tag-name" }, [
+                  _vm._v(_vm._s(tag.name))
+                ])
+              ])
+            }),
+            0
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _vm.reviews > 0
+        ? _c("div", { staticClass: "font-sm" }, [
+            _vm._v(" Review: " + _vm._s(_vm.reviews) + " / 10 ")
           ])
-        ]),
-        _vm._v(" "),
-        _vm.reviews > 0
-          ? _c("div", { staticClass: "font-sm" }, [
-              _vm._v(" Review: " + _vm._s(_vm.reviews) + " / 10 ")
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.reviews == 0
-          ? _c("div", { staticClass: "font-sm" }, [_vm._v(" No reviews yet ")])
-          : _vm._e(),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "more-container main-bg-color flex centering" },
-          [
-            _c("a", { attrs: { href: "/campings/" + _vm.camping.id } }, [
-              _vm._v("More Here")
-            ])
-          ]
-        ),
-        _vm._v(" "),
-        _c("div", [
-          _c("a", { attrs: { href: "http://" + _vm.camping.website } }, [
-            _c("span", { staticClass: "font-bold color-black font-sm" }, [
-              _vm._v("Visit us")
-            ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.reviews == 0
+        ? _c("div", { staticClass: "font-sm" }, [_vm._v(" No reviews yet ")])
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "more-container main-bg-color flex centering" },
+        [
+          _c("a", { attrs: { href: "/campings/" + _vm.camping.id } }, [
+            _vm._v("More Here")
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", [
+        _c("a", { attrs: { href: "http://" + _vm.camping.website } }, [
+          _c("span", { staticClass: "font-bold color-black font-sm" }, [
+            _vm._v("Visit us")
           ])
         ])
-      ]
-    )
-  ])
+      ])
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -39329,7 +39334,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "ratings-heading" }, [
       _c("h2", { staticClass: "heading-color" }, [
-        _vm._v("Review our camping!")
+        _vm._v("Leave a Review for this camping!")
       ])
     ])
   }

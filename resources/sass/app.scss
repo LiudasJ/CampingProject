@@ -50,6 +50,11 @@ body {
     align-items: center;
     font-size: 14px;
   }
+  .alt-btn {
+    width: 150px;
+    height: 30px;
+    border: 2px solid white;
+  }
   .log-btn {
     width: 100px;
     top: 20px;
@@ -200,26 +205,30 @@ body {
     height: 350px;
     margin-bottom: 20px;
   }
+  .mobile-nav-close-btn, .mobile-nav-open-btn {
+    display: none;
+  }
   .header-image {
     height: 100%;
     width: 100%;
     top: 0;
     left: 0;
     background-image: url(/images/header.jpg);
-    background-position: bottom;
+    background-position: center;
     background-size: cover;
-    filter: blur(4px);
   }
   .header-content {
     position: absolute;
     top: 0;
     left: 0;
-    height: 100%;
     width: 100%;
+    height: 100%;
   }
   .navigation-container {
-    width: 60%;
+    position: absolute;
+    width: 80%;
     margin: 20px auto;
+    z-index: 1;
   }
   nav ul {
     list-style: none;
@@ -229,18 +238,9 @@ body {
     width: 120px;
     padding: 5px;
   }
-  .burger {
-    height: 20px;
-    width: 30px;
-    top: 5px;
-    left: 5px;
-    cursor: pointer;
-  }
-  .burger-item {
-    height: 4px;
-    width: 80%;
-    margin: auto;
-    background-color: #ef500b;
+  nav ul li a {
+    font-size: 14px;
+    color: white;
   }
   .welcome-container {
     width: 100%;
@@ -280,16 +280,6 @@ body {
     top: 20px;
     right: 20px;
   }
-  .admin-nav-container {
-    width: 600px;
-    height: 40px;
-    padding: 5px;
-    transition: 0.3s ease-in;
-    transform: translateX(-620px);
-  }
-  .active-nav {
-    transform: translateX(0);
-  }
   .create-btn {
     bottom: 20px;
     right: 20px;
@@ -328,10 +318,9 @@ body {
     overflow: hidden;
   }
   .form-container {
-    width: 100%;
+    width: 95%;
     height: 100%;
     margin: auto;
-    padding: 20px;
   }
   .form-wrapper {
     height: auto;
@@ -491,7 +480,51 @@ body {
   }
   @media only screen and (max-width: 600px) {
     body {
+      padding: 5px;
+    }
+    #app {
+      padding: 5px;
+    }
+    body {
       padding: 15px;
+    }
+    .header-topic {
+      padding: 20px;
+    }
+    .navigation-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      transform: translateX(-600px);
+      transition: .5s ease-in;
+    }
+    .mobile-nav-close-btn {
+      display: block;
+    }
+    .mobile-nav-open-btn {
+      display: flex;
+    }
+    .active-nav {
+      transform: translateX(0);
+    }
+    .navigation-container nav {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #3e4a79;
+    }
+    .nav-ul {
+      flex-direction: column;
+      padding: 0;
+    }
+    .nav-ul li i {
+      font-size: 18px;
+      color: white;
     }
     .login-form {
       width: 260px;
@@ -520,17 +553,6 @@ body {
     .form-element {
       margin: 20px 0 10px 0;
     }
-    .burger {
-      height: 20px;
-      width: 25px;
-    }
-    .burger-item {
-      height: 3px;
-    }
-    .admin-nav-container {
-      height: auto;
-      width: 280px;
-    }
     .btn, .log-btn, .choose-file, .upload-btn{
       padding: 5px;
       font-size: 12px;
@@ -538,8 +560,30 @@ body {
     .import-form {
       display: none;
     }
+    .welcome-container, .carousel-container {
+      height: auto;
+      width: 250px;
+      margin: auto;
+    }
+    .carousel-controls {
+      display: none;
+    }
+    .cards-container {
+      height: auto;
+      flex-direction: column;
+    }
     .campsite-page-wrapper {
       display: block;
+    }
+    .welcome-camp-card {
+      height: 240px;
+      width: 240px;
+      margin: 10px auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid #8bb3ae;
     }
     .latest-campings-container {
       width: 100%;
@@ -631,16 +675,63 @@ body {
     .error-span {
       font-size: 12px;
     }
-    .header-container {
-      height: 200px;
+    .more-container {
+      height: auto;
+      flex-direction: column;
+    }
+    .more-content {
+      height: auto;
+      flex-direction: column;
+    }
+    .more-container-img img {
+      width: 250px;
+    }
+    .more-container-heading {
+      flex-direction: column;
+    }
+    .more-container-heading div.p-20 {
+      padding: 10px;
+    }
+    .more-paragraph p {
+      text-align: justify;
+    }
+    .ratings-controller {
+      padding: 10px;
+    }
+    .ratings-scale-container i {
+      padding-right: 1px;
     }
     .footer-container {
-      height: 150px;
+      height: 200px;
+    }
+    .footer-nav {
+      margin: auto;
+    }
+    .footer-nav a {
+      width: 150px;
+      text-align: center;
+      color: white;
+    }
+    .admin-panel-container {
+      display: block;
+      height: auto;
+    }
+    .admin-panel-nav, .admin-panel-view, .admin-record-container {
+      width: 250px;
+      position: relative;
+      padding: 5px;
+      margin: 0 auto 10px auto;
     }
     .header-p {
       padding: 5px;
     }
-    h1, h2 {
+    h1 {
+      font-size: 28px;
+    }
+    p {
+      font-size: 20px;
+    }
+    h2 {
       font-size: 20px;
     }
   }
@@ -665,12 +756,70 @@ body {
       width: 100%;
       height: 300px;
     }
-  
+    .admin-panel-nav, .admin-panel-view, .admin-record-container {
+      width: 250px;
+      position: relative;
+      padding: 5px;
+      margin: 0 auto 10px auto;
+    }
+    .admin-panel-nav {
+      position: sticky;
+    }
+    .welcome-container {
+      height: auto;
+    }
+    .welcome-camp-card {
+      border: 1px solid #8bb3ae;
+      margin: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .cards-container {
+      width: 90%;
+      margin: auto;
+      height: auto;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
+    .carousel-container {
+      height: auto;
+      margin: 20px auto;
+    }
+    .carousel-controls {
+      display: none;
+    }
   }
   
   @media screen and (min-device-width: 1025px) and (max-device-width: 1250px) {
     
     .campsite-card-container {
       justify-content: center;
+    }
+    .welcome-container {
+      height: auto;
+    }
+    .welcome-camp-card {
+      border: 1px solid #8bb3ae;
+      margin: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .cards-container {
+      width: 90%;
+      margin: auto;
+      height: auto;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+    }
+    .carousel-container {
+      height: auto;
+      margin: 20px auto;
+    }
+    .carousel-controls {
+      display: none;
     }
   }

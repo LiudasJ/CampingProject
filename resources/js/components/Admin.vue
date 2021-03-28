@@ -33,7 +33,7 @@
                             <span class="main-text-color">Rating:</span> 
                             <i v-for='index in camping.rating' :key='index' class="fas fa-star"></i>
                         </li>
-                        <li><span class="main-text-color">Review:</span> {{camping.average_review}}</li>
+                        <li><span class="main-text-color">Review:</span> {{parseFloat(camping.average_review).toFixed(1)}}</li>
                     </ul>
                     <span v-if="camping.tags && camping.tags.length > 0">Provided tags:</span>
                     <div v-for="tag in camping.tags" :key="tag.id">
@@ -116,7 +116,6 @@ export default {
         }
     },
     created() {
-        console.log('this.initdata');
         axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('access_token');
     }
 }
