@@ -17,9 +17,7 @@ class Campsite extends Model
      *
      * @var array
      */
-    protected $fillable = [
-        'name'
-    ];
+    protected $guarded = [];
 
     use HasFactory;
 

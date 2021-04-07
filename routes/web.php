@@ -27,9 +27,13 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/admin/add', function() {
         return view('create');
     });
+    Route::get('/admin/import', function() {
+        return view('import');
+    });
     Route::put('/admin/{id}/update', 'App\Http\Controllers\AdminController@update');
     Route::post('/admin/delete/{id}', 'App\Http\Controllers\AdminController@delete');
     Route::post('/admin/add', 'App\Http\Controllers\AdminController@store');
+    Route::post('/admin/import', 'App\Http\Controllers\ImportController@import');
 });
 
 Route::get('/', 'App\Http\Controllers\CampsiteController@all');

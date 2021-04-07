@@ -14,18 +14,16 @@ class CampingsCsvProcess implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $data;
-    public $header;
+    public $file;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($data,$header)
+    public function __construct($csv)
     {
-        $this->data = $data;
-        $this->header = $header;
+        $this->file = $csv;
     }
 
     /**
@@ -35,24 +33,20 @@ class CampingsCsvProcess implements ShouldQueue
      */
     public function handle()
     {
+        $data = array_map('str_getcsv', file($this->file));
 
-        foreach($this->data as $camp) {
-
-            $camping = array_combine($this->header, $camp);
-
-            $tempCamp = new Campsite();
-
-            $tempCamp->name = $camp["name"];
-            $tempCamp->country = $camp["country"];
-            $tempCamp->city = $camp["city"];
-            $tempCamp->website = $camp["website"];
-            $tempCamp->review = $camp["review"];
-            $tempCamp->rating = $camp["rating"];
-            $tempCamp->img_path = $camp["img_path"];
-
-            $tempCamp->save();
-
+        foreach ($data as $row) {
+            Campsite::updateOrCreate([
+                'name' => $row[0]
+            ], [
+                'country' => $row[1],
+                'city' => $row[2],
+                'website' => $row[3],
+                'rating' => $row[4],
+                'img_path' => $row[5]
+            ]);
         }
-
+        
+        unlink($this->file);
     }
 }

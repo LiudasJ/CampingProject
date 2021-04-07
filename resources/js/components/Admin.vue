@@ -12,8 +12,15 @@
                     <li><a href="/admin/latest">Latest Campings</a></li>
                     <li><a href="/admin/top">Top Rated Campings</a></li>
                     <li><a href="/admin/add" class="alt-text-color">Create New Camping</a></li>
-                    <li><a href="/admin/import" class="alt-text-color">Import CSV</a></li>
+                    <li><a href="/admin/export" class="alt-text-color">Export</a></li>
                 </ul>
+                <div class="import-container mt-20">
+                    <form action="POST" @submit.prevent="upload()" enctype="multipart/form-data">
+                        <div>Import CSV</div>
+                        <input ref="csvFile" v-on:change="onChange()" type="file" name="image">
+                        <button class="upload-btn font-sm" v-if="file" type="submit">Upload</button>
+                    </form>
+                </div>
             </div>
         </div>
         <div v-if="campings" class="admin-panel-view">
@@ -63,46 +70,11 @@ export default {
     data: function () {
         return {
             campings: this.initdata,
-            method: ''
+            method: '',
+            file: ''
         }
     },
     methods: {
-        all() {
-            axios.get('/admin/all')
-            .then(response => {
-                if (response.status === 200) {
-                    this.campings = response.data.campings;
-                    this.method = 'all';
-                }
-            })
-            .catch(e => {
-                console.log(e);
-            })
-        },
-        latest() {
-            axios.get('/admin/latest')
-            .then(response => {
-                if (response.status === 200) {
-                    this.campings = response.data.campings.data;
-                    this.method = 'latest';
-                }
-            })
-            .catch(e => {
-                console.log(e);
-            })
-        },
-        top() {
-            axios.get('/admin/top')
-            .then(response => {
-                if (response.status === 200) {
-                    this.campings = response.data.campings;
-                    this.method = 'top';
-                }
-            })
-            .catch(e => {
-                console.log(e);
-            })
-        },
         remove(id) {
             axios.post('/admin/delete/' + id)
             .then(response => {
@@ -113,6 +85,19 @@ export default {
             .catch(e => {
                 console.log(e);
             })
+        },
+        upload () {
+            const formData = new FormData();
+            formData.set('file', this.file);
+            axios.post('/admin/import', formData)
+            .then(response => {
+                if (response.status === 200) {
+                    this.file = null;
+                }
+            })
+        },
+        onChange() {
+            this.file = this.$refs.csvFile.files[0];
         }
     },
     created() {

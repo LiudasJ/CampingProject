@@ -39,7 +39,6 @@ const app = new Vue({
 });
 
 
-const campCards = document.querySelectorAll('.welcome-camp-card');
 const campCardsCount = document.querySelectorAll('.welcome-camp-card').length;
 const controls = document.querySelectorAll('.carousel-controls');
 const carousel = document.querySelector('.cards-container');
@@ -49,7 +48,6 @@ let translateX = 0;
 
 controls.forEach(arrow => {
     arrow.addEventListener('click', (e) => {
-        var transition;
         if (e.target.id === 'prev') {
             if (cardIndex !== 4) {
                 cardIndex--

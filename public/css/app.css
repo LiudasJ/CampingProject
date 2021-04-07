@@ -480,10 +480,6 @@ nav ul li a {
   cursor: pointer;
 }
 
-input[type=file] {
-  display: none;
-}
-
 .img-span {
   display: inline-block;
   width: 90px;
@@ -491,19 +487,9 @@ input[type=file] {
   overflow-x: hidden;
 }
 
-.upload-btn {
-  cursor: pointer;
-  background-color: #5cb85c;
-  border: none;
-}
-
 .form-submit-btn {
   width: 30%;
   cursor: pointer;
-}
-
-.import-form {
-  width: 300px;
 }
 
 .footer-container {
@@ -526,14 +512,11 @@ input[type=file] {
 }
 
 .admin-panel-nav {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
   width: 20%;
   padding: 20px;
   background-color: #dedede;
   border: 2px solid #3e4a79;
-  height: 350px;
+  height: auto;
 }
 
 .admin-panel-view {
@@ -586,6 +569,27 @@ input[type=file] {
   height: auto;
   margin-bottom: 10px;
   width: 100%;
+}
+
+.import-container {
+  width: 80%;
+  margin: auto;
+  padding: 5px;
+  color: #3e4a79;
+  background-color: white;
+}
+
+.upload-btn {
+  cursor: pointer;
+  background-color: #5cb85c;
+  border: none;
+  width: 100%;
+}
+
+input[type=file] {
+  width: 100%;
+  padding: 5px 0;
+  margin: 5px 0;
 }
 
 @media only screen and (max-width: 600px) {

@@ -118,7 +118,7 @@ class AdminController extends Controller
             'country' => 'required|max:50',
             'city' => 'required|max:50',
             'website' => 'required|max:255',
-            'rating' => 'required|max:5'
+            'rating' => 'required|numeric|between:1,5'
         ]);
     }
 

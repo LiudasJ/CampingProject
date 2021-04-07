@@ -10,34 +10,29 @@ class ImportController extends Controller
 {
     public function import (Request $request) {
 
-        $data = file($request->file);
+        $request->validate([
+            'file' => 'required|mimes:csv'
+        ]);
+
+        $file = file($request->file->getRealPath());
+
+        $data = array_slice($file, 1);
+
         $chunks = array_chunk($data, 100);
 
         foreach ($chunks as $key => $chunk) {
-            $name = "/tmp{$key}.csv";
-            $path = resource_path("temp");
-            file_put_contents($path . $name, $chunk);
+            $fileName = resource_path("temp/file$key.csv");
+            file_put_contents($fileName, $chunk);
         }
 
-        $path = resource_path("temp");
-        $files = glob("$path/*.csv");
-        
-        $header = [];
+        $path = resource_path('temp\*.csv');
+        $allFiles = glob($path);
 
-        foreach ($files as $key => $file) {
-
-            $data = array_map('str_getcsv', file($file));
-
-            if ($key === 0) {
-                $header = $data[0];
-                unset($data[0]);
-            }
-            
-            CampingsCsvProcess::dispatch($data, $header);
-
-            unlink($file);
-
+        foreach ($allFiles as $file) {
+            CampingsCsvProcess::dispatch($file);
         }
+
+        return response()->json(['status' => 'imported']);
 
     }
 
