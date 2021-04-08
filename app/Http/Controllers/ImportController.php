@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Models\Campsite;
 use App\Jobs\CampingsCsvProcess;
 
 class ImportController extends Controller
 {
-    public function import (Request $request) {
+    public function import (Request $request) 
+    {
 
         $request->validate([
             'file' => 'required|mimes:csv'
@@ -36,4 +38,51 @@ class ImportController extends Controller
 
     }
 
+    public function export () 
+    {
+
+        $campings = Campsite::all();
+
+        $fileName = 'campings.csv';
+
+        $headers = array(
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        );
+        
+        $columns = array(
+            'name', 
+            'country', 
+            'city', 
+            'website', 
+            'rating', 
+            'image'
+        );
+
+        $callback = function() use($campings, $columns) {
+
+            $file = fopen('php://output', 'w');
+
+            fputcsv($file, $columns);
+
+            foreach ($campings as $camping) {
+                $row['name']  = $camping->name;
+                $row['country']    = $camping->country;
+                $row['city']    = $camping->city;
+                $row['website']  = $camping->website;
+                $row['rating']  = $camping->rating;
+                $row['image']  = $camping->img_path;
+
+                fputcsv($file, array($row['name'], $row['country'], $row['city'], $row['website'], $row['rating'], $row['image']));
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+
+    }
 }

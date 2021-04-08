@@ -1916,7 +1916,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       campings: this.initdata,
       method: '',
-      file: ''
+      file: '',
+      "export": ''
     };
   },
   methods: {

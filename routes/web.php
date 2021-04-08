@@ -24,6 +24,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/admin/top', 'App\Http\Controllers\AdminController@top');
     Route::get('/tags/all', 'App\Http\Controllers\TagsController@tags');
     Route::get('/admin/edit/{action}/{id}', 'App\Http\Controllers\AdminController@edit');
+    Route::get('/admin/export', 'App\Http\Controllers\ImportController@export');
     Route::get('/admin/add', function() {
         return view('create');
     });
