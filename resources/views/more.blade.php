@@ -24,7 +24,7 @@
                             @endfor
                         </div>
                         <div>
-                            <a class="main-text-color" href="https://{{$camping->website}}" target="_blank">Visit Us</a>
+                            <a class="main-text-color p-0" href="https://{{$camping->website}}" target="_blank">Visit Us</a>
                         </div>
                     </div>
                     <rating-component v-bind:camp="{{$camping->id}}"></rating-component>

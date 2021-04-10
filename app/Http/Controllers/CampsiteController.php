@@ -54,6 +54,10 @@ class CampsiteController extends Controller
 
     public function rate($id, Request $request) {
 
+        $request->validate([
+            'rating' => 'required'
+        ]);
+
         $review = new Review();
         $review->store($id, $request->rating);
         

@@ -32,7 +32,7 @@
                     <span>Don't have an account?</span>&nbsp;<a class="main-text-color" href="/register">Register</a>
                 </div>
                 <div>
-                    <span class="guest-span main-text-color"><a href="/">Visit as Guest</a></span>
+                    <span class="guest-span main-text-color"><a href="/">Continue as Guest</a></span>
                 </div>
             </div>
         </div>

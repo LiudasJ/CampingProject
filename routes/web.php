@@ -41,6 +41,10 @@ Route::get('/', 'App\Http\Controllers\CampsiteController@all');
 Route::get('/campings/top', 'App\Http\Controllers\CampsiteController@topRated');
 Route::get('/campings/latest', 'App\Http\Controllers\CampsiteController@latest');
 Route::get('/campings/{id}', 'App\Http\Controllers\CampsiteController@readMore');
+Route::get('/contacts', function () {
+    return view('contacts');
+});
+Route::post('/contacts', 'App\Http\Controllers\ContactsController@store');
 Route::post('/campings/{id}/rate', 'App\Http\Controllers\CampsiteController@rate');
 
 Route::post('/login', 'App\Http\Controllers\AuthenticationController@login');

@@ -11,7 +11,7 @@ body {
     padding: 5px;
   }
   .danger {
-    border: 1px solid#df4759;
+    border: 1px solid#df4759 !important;
   }
   .text-danger {
     color: #df4759;
@@ -100,6 +100,9 @@ body {
   }
   .mt-20 {
     margin-top: 20px;
+  }
+  .p-0 {
+    padding: 0;
   }
   .p-20 {
     padding: 20px;
@@ -482,6 +485,52 @@ body {
     padding: 5px 0;
     margin: 5px 0;
   }
+  .contacts-container {
+    height: auto;
+  }
+  .contacts-wrapper {
+    width: 50%;
+  }
+  .contacts-form-wrapper {
+    width: 50%;
+  }
+  .contacts-form-container {
+    width: 100%;
+    overflow-x: hidden;
+  }
+  .contacts-form-element {
+    width: 70%;
+    height: auto;
+    margin: 0 auto 20px auto;
+  }
+  .contacts-form-element input, .contacts-form-element textarea {
+    width: 100%;
+    border: 1px solid #8bb3ae;
+  }
+  .contacts-info, .contacts-label {
+    width: 250px;
+  }
+  .contacts-textarea {
+    width: 250px;
+    padding: 5px;
+  }
+  .contacts-btn {
+    width: 50%;
+  }
+  .contacts-success {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 120px;
+    padding: 5px;
+    border: 1px solid #8bb3ae;
+    cursor: pointer;
+    transition: 0.3s ease-in;
+    transform: translateX(200px);
+  }
+  .active-success {
+    transform: translateX(0);
+  }
   @media only screen and (max-width: 600px) {
     body {
       padding: 5px;
@@ -737,6 +786,13 @@ body {
     }
     h2 {
       font-size: 20px;
+    }
+    .contacts-container {
+      flex-direction: column;
+      align-items: center;
+    }
+    .contacts-wrapper, .contacts-form-wrapper {
+      width: 100%;
     }
   }
   @media screen and (min-device-width: 601px) and (max-device-width: 1024px) {

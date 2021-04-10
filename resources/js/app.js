@@ -27,6 +27,7 @@ Vue.component('login-component', require('./components/Login.vue').default);
 Vue.component('register-component', require('./components/Register.vue').default);
 Vue.component('admin-component', require('./components/Admin.vue').default);
 Vue.component('campingform-component', require('./components/CampingForm.vue').default);
+Vue.component('contactsform-component', require('./components/Contacts.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -42,6 +43,7 @@ const app = new Vue({
 const campCardsCount = document.querySelectorAll('.welcome-camp-card').length;
 const controls = document.querySelectorAll('.carousel-controls');
 const carousel = document.querySelector('.cards-container');
+const successSpan = document.querySelector('.contacts-success');
 
 let cardIndex = 4;
 let translateX = 0;
@@ -71,4 +73,8 @@ navBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         navContainer.classList.toggle('active-nav');
     })
+})
+
+successSpan.addEventListener('click', () => {
+    successSpan.classList.toggle('active-success');
 })

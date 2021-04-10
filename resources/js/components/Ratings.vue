@@ -17,8 +17,8 @@
         <div>
             <input @click="publish" type="submit" class="btn" value="Submit">
         </div>
-        <div>
-            <span v-if="success">{{success}}</span>
+        <div class="mt-10">
+            <span v-if="result">{{result}}</span>
         </div>
     </div>
 </template>
@@ -28,9 +28,9 @@ export default {
     props: ['camp'],
     data: function() {
         return {
-            score: 0,
+            score: '',
             id: this.camp,
-            success: ''
+            result: ''
         }
     },
     methods: {
@@ -44,11 +44,13 @@ export default {
             .then(response => {
                 if (response.status === 200) {
                     this.score = 0;
-                    this.success = response.data.result;
+                    this.result = response.data.result;
                 }
             })
-            .catch(error => {
-                console.log(error)
+            .catch(e => {
+                if (e.response.status === 422) {
+                    this.result = e.response.data.errors.rating[0]  
+                }
             })
         }
     },
