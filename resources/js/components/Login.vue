@@ -10,8 +10,9 @@
                         v-model="user.username" 
                         class ="fname" 
                         type ="text" 
-                        name ="username" 
-                        placeholder ="Username">
+                        name ="username"
+                        placeholder ="Username"
+                        required>
                     <span class="error-span absolute text-danger" v-if="errors.username">{{errors.username.toString()}}</span>
                 </div>
                 <div class="form-element flex flex-col relative centering">
@@ -21,9 +22,11 @@
                         v-model ="user.password" 
                         type ="password" 
                         name ="password" 
-                        placeholder ="Password">
+                        placeholder ="Password"
+                        required>
                     <span class="error-span absolute text-danger" v-if="errors.password">{{errors.password.toString()}}</span>
                     <span v-if="invalidCred" class="error-span absolute text-danger">{{invalidCred}}</span>
+                    <span v-if="test" class="error-span absolute text-danger">{{invalidCred}}</span>
                 </div>           
             </div>
             <div class="login-routes flex flex-col centering">
@@ -48,7 +51,7 @@
                     password: ''
                 },
                 errors: [],
-                invalidCred: ''
+                invalidCred: '',
             }
         },
         methods: {

@@ -50,36 +50,7 @@ export default {
             rating: this.camping.rating
         }
     },
-    props: ['camping', 'review'],
-    methods: {
-        remove() {
-            axios.delete('/campings/' + this.id + '/delete')
-            .then( response => {
-                if (response.status === 200) {
-                    this.$emit('campingsChanged');
-                }
-            })
-            .catch(error => {
-                console.log('could not remove camping');
-            })
-        },
-        edit() {
-            axios.get('/campings/' + this.id + '/edit')
-            .then(response => {
-                if (response.status === 200) {
-                    this.campingData = response.data.campsite;
-                    this.tags = response.data.tags;
-                    this.$router.push({ 
-                        name : 'campForm', params: {camping: this.campingData, tags: this.tags, edit: true} }); 
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            })  
-        }
-    },
-    created() {
-    }
+    props: ['camping', 'review']
 }
 </script>
 

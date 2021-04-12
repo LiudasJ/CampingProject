@@ -43,7 +43,6 @@ const app = new Vue({
 const campCardsCount = document.querySelectorAll('.welcome-camp-card').length;
 const controls = document.querySelectorAll('.carousel-controls');
 const carousel = document.querySelector('.cards-container');
-const successSpan = document.querySelector('.contacts-success');
 
 let cardIndex = 4;
 let translateX = 0;
@@ -73,8 +72,4 @@ navBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         navContainer.classList.toggle('active-nav');
     })
-})
-
-successSpan.addEventListener('click', () => {
-    successSpan.classList.toggle('active-success');
-})
+});

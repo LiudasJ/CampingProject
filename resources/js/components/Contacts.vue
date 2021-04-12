@@ -5,16 +5,16 @@
             <input v-bind:class="{ danger : errors.name }" v-model="name" type="text" name='name'>
         </div>
         <div class="contacts-form-element">
-            <label for="">Your Email: &nbsp;</label><span v-if="errors.email" class="error-span text-danger">{{errors.email[0]}}</span>
+            <label>Your Email: &nbsp;</label><span v-if="errors.email" class="error-span text-danger">{{errors.email[0]}}</span>
             <input v-bind:class="{ danger : errors.email }" v-model="email" type="text" name="email">
         </div>
         <div class="contacts-form-element">
-            <label for="">Question: &nbsp;</label><span v-if="errors.question" class="error-span text-danger">{{errors.question[0]}}</span>
+            <label>Question: &nbsp;</label><span v-if="errors.question" class="error-span text-danger">{{errors.question[0]}}</span>
             <textarea v-bind:class="{ danger : errors.question }" v-model="question" class="contacts-textarea" rows="5"></textarea>
         </div>
-        <div class="relative flex centering contacts-success">
+        <div @click="hideSuccess" class="relative flex centering contacts-success">
             <span class="success">
-                success test
+                Message sent
                 <i class="fas fa-window-close"></i>
             </span>
         </div>
@@ -42,7 +42,7 @@ export default {
             axios.post('/contacts', {
                 name: this.name,
                 email: this.email,
-                question:this.question
+                question: this.question
             })
             .then(response => {
                 if (response.status === 200) {
@@ -62,6 +62,10 @@ export default {
         showSuccess() {
             let successSpan = document.querySelector('.contacts-success');
             successSpan.classList.add('active-success');
+        },
+        hideSuccess() {
+            let successSpan = document.querySelector('.contacts-success');
+            successSpan.classList.toggle('active-success');
         }
     }
 }

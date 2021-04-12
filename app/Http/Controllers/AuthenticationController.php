@@ -61,7 +61,9 @@ class AuthenticationController extends Controller
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->save();
-        
+
+        Auth::login($user);
+
         $token = $user->createToken('user-token')->plainTextToken;
 
         $response = ['user' => $user, 'access_token' => $token];

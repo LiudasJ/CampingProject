@@ -5,6 +5,10 @@ body {
   margin: auto;
 }
 
+#app {
+  overflow-x: hidden;
+}
+
 a {
   text-decoration: none;
   color: #8bb3ae;
@@ -610,7 +614,6 @@ input[type=file] {
 
 .contacts-form-container {
   width: 100%;
-  overflow-x: hidden;
 }
 
 .contacts-form-element {
@@ -641,12 +644,12 @@ input[type=file] {
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 120px;
+  width: 150px;
   padding: 5px;
   border: 1px solid #8bb3ae;
   cursor: pointer;
-  transition: 0.3s ease-in;
-  transform: translateX(200px);
+  transition: 0.5s ease-in;
+  transform: translateX(350px);
 }
 
 .active-success {

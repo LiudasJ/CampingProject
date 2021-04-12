@@ -2161,42 +2161,7 @@ __webpack_require__.r(__webpack_exports__);
       rating: this.camping.rating
     };
   },
-  props: ['camping', 'review'],
-  methods: {
-    remove: function remove() {
-      var _this = this;
-
-      axios["delete"]('/campings/' + this.id + '/delete').then(function (response) {
-        if (response.status === 200) {
-          _this.$emit('campingsChanged');
-        }
-      })["catch"](function (error) {
-        console.log('could not remove camping');
-      });
-    },
-    edit: function edit() {
-      var _this2 = this;
-
-      axios.get('/campings/' + this.id + '/edit').then(function (response) {
-        if (response.status === 200) {
-          _this2.campingData = response.data.campsite;
-          _this2.tags = response.data.tags;
-
-          _this2.$router.push({
-            name: 'campForm',
-            params: {
-              camping: _this2.campingData,
-              tags: _this2.tags,
-              edit: true
-            }
-          });
-        }
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    }
-  },
-  created: function created() {}
+  props: ['camping', 'review']
 });
 
 /***/ }),
@@ -2275,6 +2240,10 @@ __webpack_require__.r(__webpack_exports__);
     showSuccess: function showSuccess() {
       var successSpan = document.querySelector('.contacts-success');
       successSpan.classList.add('active-success');
+    },
+    hideSuccess: function hideSuccess() {
+      var successSpan = document.querySelector('.contacts-success');
+      successSpan.classList.toggle('active-success');
     }
   }
 });
@@ -2292,6 +2261,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
 //
 //
 //
@@ -2522,17 +2494,17 @@ __webpack_require__.r(__webpack_exports__);
         username: this.user.username,
         email: this.user.email,
         password: this.user.password
-      }).then(function () {
-        console.log('registered');
+      }).then(function (response) {
+        if (response.status === 200) {
+          localStorage.setItem('access_token', response.data.access_token);
+          window.location.replace('/');
+        }
       })["catch"](function (e) {
         if (e.response.status === 422) {
           _this.errors = e.response.data.errors;
         }
       });
     }
-  },
-  mounted: function mounted() {
-    console.log('Component mounted.');
   }
 });
 
@@ -2585,7 +2557,6 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0__.default({
 var campCardsCount = document.querySelectorAll('.welcome-camp-card').length;
 var controls = document.querySelectorAll('.carousel-controls');
 var carousel = document.querySelector('.cards-container');
-var successSpan = document.querySelector('.contacts-success');
 var cardIndex = 4;
 var translateX = 0;
 controls.forEach(function (arrow) {
@@ -2611,9 +2582,6 @@ navBtns.forEach(function (btn) {
   btn.addEventListener('click', function () {
     navContainer.classList.toggle('active-nav');
   });
-});
-successSpan.addEventListener('click', function () {
-  successSpan.classList.toggle('active-success');
 });
 
 /***/ }),
@@ -39346,7 +39314,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "contacts-form-element" }, [
-        _c("label", { attrs: { for: "" } }, [_vm._v("Your Email:  ")]),
+        _c("label", [_vm._v("Your Email:  ")]),
         _vm.errors.email
           ? _c("span", { staticClass: "error-span text-danger" }, [
               _vm._v(_vm._s(_vm.errors.email[0]))
@@ -39377,7 +39345,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "contacts-form-element" }, [
-        _c("label", { attrs: { for: "" } }, [_vm._v("Question:  ")]),
+        _c("label", [_vm._v("Question:  ")]),
         _vm.errors.question
           ? _c("span", { staticClass: "error-span text-danger" }, [
               _vm._v(_vm._s(_vm.errors.question[0]))
@@ -39408,7 +39376,14 @@ var render = function() {
         })
       ]),
       _vm._v(" "),
-      _vm._m(0),
+      _c(
+        "div",
+        {
+          staticClass: "relative flex centering contacts-success",
+          on: { click: _vm.hideSuccess }
+        },
+        [_vm._m(0)]
+      ),
       _vm._v(" "),
       _c("div", { staticClass: "contacts-form-element" }, [
         _c(
@@ -39425,16 +39400,10 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "relative flex centering contacts-success" },
-      [
-        _c("span", { staticClass: "success" }, [
-          _vm._v("\n            success test\n            "),
-          _c("i", { staticClass: "fas fa-window-close" })
-        ])
-      ]
-    )
+    return _c("span", { staticClass: "success" }, [
+      _vm._v("\n            Message sent\n            "),
+      _c("i", { staticClass: "fas fa-window-close" })
+    ])
   }
 ]
 render._withStripped = true
@@ -39484,7 +39453,8 @@ var render = function() {
               attrs: {
                 type: "text",
                 name: "username",
-                placeholder: "Username"
+                placeholder: "Username",
+                required: ""
               },
               domProps: { value: _vm.user.username },
               on: {
@@ -39524,7 +39494,8 @@ var render = function() {
               attrs: {
                 type: "password",
                 name: "password",
-                placeholder: "Password"
+                placeholder: "Password",
+                required: ""
               },
               domProps: { value: _vm.user.password },
               on: {
@@ -39544,6 +39515,12 @@ var render = function() {
               : _vm._e(),
             _vm._v(" "),
             _vm.invalidCred
+              ? _c("span", { staticClass: "error-span absolute text-danger" }, [
+                  _vm._v(_vm._s(_vm.invalidCred))
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.test
               ? _c("span", { staticClass: "error-span absolute text-danger" }, [
                   _vm._v(_vm._s(_vm.invalidCred))
                 ])

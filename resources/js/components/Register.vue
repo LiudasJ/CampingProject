@@ -66,8 +66,11 @@
                     email: this.user.email,
                     password: this.user.password,
                 })
-                .then( () => {
-                    console.log('registered')
+                .then( response => {
+                    if (response.status === 200) {
+                        localStorage.setItem('access_token', response.data.access_token);
+                        window.location.replace('/');
+                    }
                 })
                 .catch(e => {
                     if (e.response.status === 422) {
@@ -75,9 +78,6 @@
                     }
                 })
             }
-        },
-        mounted() {
-            console.log('Component mounted.')
         }
     }
 </script>
