@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(TagsTableSeeder::class);
 
-        \App\Models\Campsite::factory(10)->hasReview(5)->create();
+        \App\Models\Campsite::factory(10)->hasReviews(5)->create();
 
     }
 }

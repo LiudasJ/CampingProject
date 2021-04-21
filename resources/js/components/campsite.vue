@@ -3,7 +3,8 @@
         <h2 class="text-center"> 
             <span class="font-bold font-lg main-text-color">{{camping.name}}</span>
         </h2>
-        <div class="camp-image relative" :style="[camping.images[0].img_path ? {'background-image': 'url(../storage/' + camping.images[0].img_path + ')'} : {'background': '#FFF'}]"></div>
+        <div v-if="camping.images.length == 0" class="camp-image relative" :style="{'background': 'url(https://lh3.googleusercontent.com/proxy/ZeUSGUbuVCw1pHUkHz0ietJ8qYbyKJlIe5lNdoRVLzO_hhXih3AagJBKAfxuuXKcKlwuPWgpWgtjxh008EdTNmk3H546_HV7OFpP0P1_6JOS4F07ThZutit0byXhl5ivl1nHrxIxdenMGWSQgAtzTu7d8PBdBj7B6oSwqIfSe_x-M1r0bij5DI5nwnmyJEk7VthiXg)'}"></div>
+        <div v-if="camping.images.length > 0" class="camp-image relative" :style="{'background-image': 'url(../storage/' + camping.images[0].img_path + ')'}"></div>
         <div class="camping-card-heading">
             <div class="location-tags-container flex">
                 <div class="location-container">

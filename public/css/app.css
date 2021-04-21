@@ -536,7 +536,7 @@ nav ul li a {
 }
 
 .admin-panel-nav {
-  width: 20%;
+  width: 25%;
   padding: 20px;
   background-color: #dedede;
   border: 2px solid #3e4a79;
@@ -544,7 +544,7 @@ nav ul li a {
 }
 
 .admin-panel-view {
-  width: 80%;
+  width: 75%;
 }
 
 .adm-img-container {

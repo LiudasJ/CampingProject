@@ -4,7 +4,11 @@
     <div class="more-container">
         <div class="more-content flex">
             <div class="more-container-img p-20 flex centering">
-                <img src="../storage/{{$camping->images[0]->img_path}}" width="400px" alt="logo">
+                @if(count($camping->images) > 0)
+                    <img src="../storage/{{$camping->images[0]->img_path}}" width="400px" alt="logo">
+                @else
+                    <img src="https://media.timeout.com/images/105658195/image.jpg" width="400px" alt="logo">
+                @endif
             </div>
             <div class="more-paragraph">
                 <div class="more-container-heading flex">

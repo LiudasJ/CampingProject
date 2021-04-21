@@ -24,7 +24,7 @@ class CreateTagsTable extends Migration
             $table->unsignedBigInteger('campsite_id');
             $table->unsignedBigInteger('tags_id');
             $table->timestamps();
-            $table->unique(['campsite_id','tag_id']);
+            $table->unique(['campsite_id','tags_id']);
         });
     }
 

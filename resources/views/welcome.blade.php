@@ -14,7 +14,11 @@
                 @foreach($campings as $camping)
                     <div class="welcome-camp-card">
                         <div class="welcome-camp-card-img">
-                            <img src="../storage/{{$camping->images[0]->img_path}}" width="100px" alt="name">
+                            @if(count($camping->images) > 0)
+                                <img src="../storage/{{$camping->images[0]->img_path}}" width="100px" alt="name">
+                            @else
+                                <img src="https://media.timeout.com/images/105658195/image.jpg" width="100px" alt="name">
+                            @endif
                         </div>
                         <h2 class="font-lg heading-color">{{$camping->name}}</h2>
                         <div class="flex flex-col mb-10">
