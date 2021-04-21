@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Campsite;
+use App\Models\Images;
 
 class AdminController extends Controller
 {
@@ -56,18 +57,32 @@ class AdminController extends Controller
 
         $this->validateCamping();
 
-        $campsite = new Campsite();
+        $i = 0;
+        $images = [];
 
+        do {
+            if (!$request->file('image' . strval($i))) {
+                break;
+            }
+            $pathToFile = $request->file('image' . strval($i))->store('images', 'public');
+            array_push($images, $pathToFile);
+            $i++;
+        } while ($i <= 5);
+
+        $campsite = new Campsite();
+        $image = new Images();
+        
         $campsite->name = $request->name;
         $campsite->country = $request->country;
         $campsite->city = $request->city;
         $campsite->website = $request->website;
         $campsite->rating = $request->rating;
-        $campsite->img_path = $request->image;
 
         $campsite->save();
 
-        $campsite->tags()->attach($request->tags);
+        $campsite->tags()->attach(json_decode($request->tags));
+        
+        $image->store($images, $campsite->id);
 
         return $campsite;
 

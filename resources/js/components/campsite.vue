@@ -3,11 +3,7 @@
         <h2 class="text-center"> 
             <span class="font-bold font-lg main-text-color">{{camping.name}}</span>
         </h2>
-        <div class="camp-image relative" :style="[camping.img_path ? {'background-image': 'url(../storage/' + camping.img_path + ')'} : {'background': '#FFF'}]">
-            <!-- <div class="absolute upload-container">
-                <upload-container v-on:imageChanged="$emit('campingsChanged')" :camping="camping"></upload-container>
-            </div> -->
-        </div>
+        <div class="camp-image relative" :style="[camping.images[0].img_path ? {'background-image': 'url(../storage/' + camping.images[0].img_path + ')'} : {'background': '#FFF'}]"></div>
         <div class="camping-card-heading">
             <div class="location-tags-container flex">
                 <div class="location-container">

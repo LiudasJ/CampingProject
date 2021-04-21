@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCampsitesTable extends Migration
+class CreateImagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateCampsitesTable extends Migration
      */
     public function up()
     {
-        Schema::create('campsites', function (Blueprint $table) {
+        Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('country');
-            $table->string('city');
-            $table->text('website');
-            $table->integer('rating');
+            $table->unsignedBigInteger('campsite_id');
+            $table->string('img_path');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateCampsitesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('campsites');
+        Schema::dropIfExists('images');
     }
 }

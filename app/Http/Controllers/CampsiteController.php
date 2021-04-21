@@ -46,7 +46,7 @@ class CampsiteController extends Controller
 
     public function readMore ($id) {
 
-        $camping = Campsite::with(['tags'])->find($id);
+        $camping = Campsite::with(['tags', 'images'])->find($id);
         return view('more', [
             "camping" => $camping
         ]);

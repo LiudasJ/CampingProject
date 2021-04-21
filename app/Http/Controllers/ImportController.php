@@ -58,8 +58,7 @@ class ImportController extends Controller
             'country', 
             'city', 
             'website', 
-            'rating', 
-            'image'
+            'rating' 
         );
 
         $callback = function() use($campings, $columns) {
@@ -74,9 +73,8 @@ class ImportController extends Controller
                 $row['city']    = $camping->city;
                 $row['website']  = $camping->website;
                 $row['rating']  = $camping->rating;
-                $row['image']  = $camping->img_path;
 
-                fputcsv($file, array($row['name'], $row['country'], $row['city'], $row['website'], $row['rating'], $row['image']));
+                fputcsv($file, array($row['name'], $row['country'], $row['city'], $row['website'], $row['rating']));
             }
 
             fclose($file);

@@ -25,6 +25,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/tags/all', 'App\Http\Controllers\TagsController@tags');
     Route::get('/admin/edit/{action}/{id}', 'App\Http\Controllers\AdminController@edit');
     Route::get('/admin/export', 'App\Http\Controllers\ImportController@export');
+    Route::get('/admin/photos', 'App\Http\Controllers\ImagesController@index');
     Route::get('/admin/add', function() {
         return view('create');
     });
@@ -35,6 +36,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/admin/delete/{id}', 'App\Http\Controllers\AdminController@delete');
     Route::post('/admin/add', 'App\Http\Controllers\AdminController@store');
     Route::post('/admin/import', 'App\Http\Controllers\ImportController@import');
+    Route::post('/admin/photo/add', 'App\Http\Controllers\ImagesController@store')->name('admin.addphoto');
 });
 
 Route::get('/', 'App\Http\Controllers\CampsiteController@all');

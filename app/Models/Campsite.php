@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Models\Review;
 use App\Models\Tags;
+use App\Models\Images;
 
 class Campsite extends Model
 {
@@ -36,10 +37,15 @@ class Campsite extends Model
         return $this->belongsToMany(Tags::class);
     }
 
+    public function images() 
+    {
+        return $this->hasMany(Images::class);
+    }
+
     public function latestCampsites() 
     {
 
-        return $this::with(['tags'])
+        return $this::with(['tags', 'images'])
                 ->withCount(['reviews as average_review' => function($query) {
                     $query->select(Review::raw('coalesce(avg(review),0)'));
                 }])
@@ -51,7 +57,7 @@ class Campsite extends Model
     public function bestRatedCampsites() 
     {
 
-        return $this::with(['tags'])
+        return $this::with(['tags', 'images'])
                 ->withCount(['reviews as average_review' => function($query) {
                                 $query->select(Review::raw('coalesce(avg(review),0)'));
                             }])
@@ -63,7 +69,7 @@ class Campsite extends Model
 
     public function allCamps() 
     {
-        return $this::with(['tags'])
+        return $this::with(['tags', 'images'])
                 ->withCount(['reviews as average_review' => function($query) {
                     $query->select(Review::raw('coalesce(avg(review),0)'));
                 }])

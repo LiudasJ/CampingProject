@@ -12,6 +12,7 @@
                     <li><a href="/admin/latest">Latest Campings</a></li>
                     <li><a href="/admin/top">Top Rated Campings</a></li>
                     <li><a href="/admin/add" class="alt-text-color">Create New Camping</a></li>
+                    <li><a href="/admin/photos" class="alt-text-color">Add more Photos</a></li>
                     <li><a href="/admin/export" class="alt-text-color">Export</a></li>
                 </ul>
                 <div class="import-container mt-20">

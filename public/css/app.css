@@ -9,6 +9,10 @@ body {
   overflow-x: hidden;
 }
 
+form {
+  width: 100%;
+}
+
 a {
   text-decoration: none;
   color: #8bb3ae;
@@ -21,6 +25,10 @@ a {
 
 .text-danger {
   color: #df4759;
+}
+
+.text-success {
+  color: #8bb3ae;
 }
 
 .text-white {
@@ -402,7 +410,6 @@ nav ul li a {
 
 .form-container {
   width: 95%;
-  height: 100%;
   margin: auto;
 }
 
@@ -412,13 +419,18 @@ nav ul li a {
 }
 
 .form-chunk {
-  height: 350px;
+  height: auto;
   width: 35%;
+  flex-grow: 1;
 }
 
 .form-element {
   margin-bottom: 25px;
   width: 300px;
+}
+
+.img-upload-input input {
+  display: none;
 }
 
 .more-container {
@@ -429,6 +441,10 @@ nav ul li a {
 
 .more-link-container {
   border: 1px solid #3e4a79;
+}
+
+.more-pics-wrapper {
+  margin: 10px;
 }
 
 .crud-btns-container {
@@ -891,7 +907,7 @@ input[type=file] {
 
   .form-chunk {
     width: 280px;
-    height: 300px;
+    height: auto;
   }
 
   select {
@@ -934,6 +950,10 @@ input[type=file] {
 
   .ratings-scale-container i {
     padding-right: 1px;
+  }
+
+  .more-pics-container {
+    display: block;
   }
 
   .footer-container {
@@ -1010,7 +1030,7 @@ input[type=file] {
 
   .form-chunk {
     width: 100%;
-    height: 300px;
+    height: auto;
   }
 
   .admin-panel-nav, .admin-panel-view, .admin-record-container {
@@ -1053,6 +1073,10 @@ input[type=file] {
 
   .carousel-controls {
     display: none;
+  }
+
+  .more-content {
+    display: block;
   }
 }
 @media screen and (min-device-width: 1025px) and (max-device-width: 1250px) {

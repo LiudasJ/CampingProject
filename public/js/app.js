@@ -1910,6 +1910,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['initdata', 'action'],
   data: function data() {
@@ -2013,12 +2014,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['camp', 'tags', 'action', 'method'],
   data: function data() {
     return {
       camping: {
-        id: '',
         name: '',
         country: '',
         city: '',
@@ -2026,26 +2042,36 @@ __webpack_require__.r(__webpack_exports__);
         rating: '',
         review: ''
       },
+      campId: '',
       campingTags: [],
-      imgPath: '../images/camping.jpg',
       allTags: [],
-      errors: []
+      errors: [],
+      images: [],
+      maxImageCount: 5,
+      maxImgError: ''
     };
   },
   methods: {
     add: function add() {
       var _this = this;
 
-      axios.post('/admin/add', {
-        name: this.camping.name,
-        country: this.camping.country,
-        city: this.camping.city,
-        website: this.camping.website,
-        rating: this.camping.rating,
-        tags: this.campingTags,
-        image: this.imgPath
-      }).then(function () {
-        window.location.replace('/admin/all');
+      var formData = new FormData();
+      var fields = ["name", "country", "city", "website", "rating", "review"];
+      var data = Object.values(this.camping);
+
+      for (var i = 0; i < data.length; i++) {
+        if (this.images[i]) {
+          formData.set('image' + i, this.images[i]);
+        }
+
+        formData.set(fields[i], data[i]);
+      }
+
+      formData.set('tags', JSON.stringify(this.campingTags));
+      axios.post('/admin/add', formData).then(function (response) {
+        if (response.status === 201) {
+          window.location.replace('/admin/all');
+        }
       })["catch"](function (e) {
         if (e.response.status === 422) {
           _this.errors = e.response.data.errors;
@@ -2055,7 +2081,7 @@ __webpack_require__.r(__webpack_exports__);
     update: function update() {
       var _this2 = this;
 
-      axios.put('/admin/' + this.camping.id + '/update', {
+      axios.put('/admin/' + this.campId + '/update', {
         name: this.camping.name,
         country: this.camping.country,
         city: this.camping.city,
@@ -2078,7 +2104,6 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/tags/all').then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
           _this3.allTags = response.data;
         }
       })["catch"](function (error) {
@@ -2087,8 +2112,17 @@ __webpack_require__.r(__webpack_exports__);
     },
     fillEditableData: function fillEditableData() {
       if (this.action == 'edit') {
-        this.camping.id = this.camp.id, this.camping.name = this.camp.name, this.camping.country = this.camp.country, this.camping.city = this.camp.city, this.camping.website = this.camp.website, this.camping.rating = this.camp.rating, this.campingTags = this.tags;
+        this.campId = this.camp.id, this.camping.name = this.camp.name, this.camping.country = this.camp.country, this.camping.city = this.camp.city, this.camping.website = this.camp.website, this.camping.rating = this.camp.rating, this.campingTags = this.tags;
       }
+    },
+    onChange: function onChange(e) {
+      if (e.target.files.length > this.maxImageCount) {
+        e.preventDefault();
+        this.maxImgError = "Maximum 5 files are available for uploading";
+        return;
+      }
+
+      this.images = e.target.files;
     }
   },
   created: function created() {
@@ -2111,10 +2145,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
-//
-//
-//
 //
 //
 //
@@ -2402,6 +2432,7 @@ __webpack_require__.r(__webpack_exports__);
         if (response.status === 200) {
           _this.score = 0;
           _this.result = response.data.result;
+          window.location.replace('/campings/' + _this.id);
         }
       })["catch"](function (e) {
         if (e.response.status === 422) {
@@ -38749,6 +38780,14 @@ var staticRenderFns = [
       _c("li", [
         _c(
           "a",
+          { staticClass: "alt-text-color", attrs: { href: "/admin/photos" } },
+          [_vm._v("Add more Photos")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c(
+          "a",
           { staticClass: "alt-text-color", attrs: { href: "/admin/export" } },
           [_vm._v("Export")]
         )
@@ -38794,10 +38833,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    {
-      staticClass: "form-container flex flex-col centering space-around",
-      attrs: { action: "POST" }
-    },
+    { staticClass: "form-container flex flex-col centering space-around" },
     [
       _c("h2", { staticClass: "main-text-color" }, [
         _vm._v(
@@ -38805,295 +38841,371 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-wrapper flex mt-20 centering" }, [
-        _c(
-          "div",
-          { staticClass: "form-chunk flex flex-col centering flex-start" },
-          [
+      _c(
+        "form",
+        {
+          staticClass: "mb-20",
+          attrs: { action: "POST", enctype: "multipart/form-data" },
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.add()
+            }
+          }
+        },
+        [
+          _c("div", { staticClass: "form-wrapper flex mt-20" }, [
             _c(
               "div",
-              { staticClass: "form-element flex flex-col relative centering" },
+              { staticClass: "form-chunk flex flex-col vertical-align" },
               [
-                _c("span", { staticClass: "w-100 main-text-color" }, [
-                  _vm._v("Camping Name:")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.camping.name,
-                      expression: "camping.name"
-                    }
-                  ],
-                  class: { danger: _vm.errors.name },
-                  attrs: {
-                    type: "text",
-                    name: "name",
-                    placeholder: "Camping name"
-                  },
-                  domProps: { value: _vm.camping.name },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
+                _c(
+                  "div",
+                  { staticClass: "form-element flex flex-col relative" },
+                  [
+                    _c("span", { staticClass: "w-100 main-text-color" }, [
+                      _vm._v("Camping Name:")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.camping.name,
+                          expression: "camping.name"
+                        }
+                      ],
+                      class: { danger: _vm.errors.name },
+                      attrs: {
+                        type: "text",
+                        name: "name",
+                        placeholder: "Camping name"
+                      },
+                      domProps: { value: _vm.camping.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.camping, "name", $event.target.value)
+                        }
                       }
-                      _vm.$set(_vm.camping, "name", $event.target.value)
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _vm.errors.name
-                  ? _c(
-                      "span",
-                      { staticClass: "error-span absolute text-danger" },
-                      [_vm._v(_vm._s(_vm.errors.name.toString()))]
-                    )
-                  : _vm._e()
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "form-element flex flex-col relative centering" },
-              [
-                _c("span", { staticClass: "w-100 main-text-color" }, [
-                  _vm._v("Country:")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.camping.country,
-                      expression: "camping.country"
-                    }
-                  ],
-                  class: { danger: _vm.errors.country },
-                  attrs: {
-                    type: "text",
-                    name: "country",
-                    placeholder: "Country"
-                  },
-                  domProps: { value: _vm.camping.country },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.camping, "country", $event.target.value)
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _vm.errors.country
-                  ? _c(
-                      "span",
-                      { staticClass: "error-span absolute text-danger" },
-                      [_vm._v(_vm._s(_vm.errors.country.toString()))]
-                    )
-                  : _vm._e()
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "form-element flex flex-col relative centering" },
-              [
-                _c("span", { staticClass: "w-100 main-text-color" }, [
-                  _vm._v("Tags:")
-                ]),
+                    }),
+                    _vm._v(" "),
+                    _vm.errors.name
+                      ? _c(
+                          "span",
+                          { staticClass: "error-span absolute text-danger" },
+                          [_vm._v(_vm._s(_vm.errors.name.toString()))]
+                        )
+                      : _vm._e()
+                  ]
+                ),
                 _vm._v(" "),
                 _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.campingTags,
-                        expression: "campingTags"
+                  "div",
+                  { staticClass: "form-element flex flex-col relative" },
+                  [
+                    _c("span", { staticClass: "w-100 main-text-color" }, [
+                      _vm._v("Country:")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.camping.country,
+                          expression: "camping.country"
+                        }
+                      ],
+                      class: { danger: _vm.errors.country },
+                      attrs: {
+                        type: "text",
+                        name: "country",
+                        placeholder: "Country"
+                      },
+                      domProps: { value: _vm.camping.country },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.camping, "country", $event.target.value)
+                        }
                       }
-                    ],
-                    attrs: { name: "tags", multiple: "" },
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.campingTags = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
+                    }),
+                    _vm._v(" "),
+                    _vm.errors.country
+                      ? _c(
+                          "span",
+                          { staticClass: "error-span absolute text-danger" },
+                          [_vm._v(_vm._s(_vm.errors.country.toString()))]
+                        )
+                      : _vm._e()
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "form-element flex flex-col relative" },
+                  [
+                    _c("span", { staticClass: "w-100 main-text-color" }, [
+                      _vm._v("City:")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.camping.city,
+                          expression: "camping.city"
+                        }
+                      ],
+                      class: { danger: _vm.errors.city },
+                      attrs: {
+                        type: "text",
+                        name: "city",
+                        placeholder: "City"
+                      },
+                      domProps: { value: _vm.camping.city },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.camping, "city", $event.target.value)
+                        }
                       }
-                    }
-                  },
-                  _vm._l(_vm.allTags, function(tag) {
-                    return _c(
-                      "option",
+                    }),
+                    _vm._v(" "),
+                    _vm.errors.city
+                      ? _c(
+                          "span",
+                          { staticClass: "error-span absolute text-danger" },
+                          [_vm._v(_vm._s(_vm.errors.city.toString()))]
+                        )
+                      : _vm._e()
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "form-element flex flex-col relative" },
+                  [
+                    _c("span", { staticClass: "w-100 main-text-color" }, [
+                      _vm._v("Website:")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.camping.website,
+                          expression: "camping.website"
+                        }
+                      ],
+                      class: { danger: _vm.errors.website },
+                      attrs: {
+                        type: "text",
+                        name: "website",
+                        placeholder: "Website"
+                      },
+                      domProps: { value: _vm.camping.website },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.camping, "website", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm.errors.website
+                      ? _c(
+                          "span",
+                          { staticClass: "error-span absolute text-danger" },
+                          [_vm._v(_vm._s(_vm.errors.website.toString()))]
+                        )
+                      : _vm._e()
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "form-element flex flex-col relative" },
+                  [
+                    _c("span", { staticClass: "w-100 main-text-color" }, [
+                      _vm._v("Rating:")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.camping.rating,
+                          expression: "camping.rating"
+                        }
+                      ],
+                      class: { danger: _vm.errors.rating },
+                      attrs: {
+                        type: "text",
+                        name: "rating",
+                        placeholder: "Rating"
+                      },
+                      domProps: { value: _vm.camping.rating },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.camping, "rating", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm.errors.rating
+                      ? _c(
+                          "span",
+                          { staticClass: "error-span absolute text-danger" },
+                          [_vm._v(_vm._s(_vm.errors.rating.toString()))]
+                        )
+                      : _vm._e()
+                  ]
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "form-chunk flex flex-col vertical-align" },
+              [
+                _c(
+                  "div",
+                  { staticClass: "form-element flex flex-col relative" },
+                  [
+                    _c("span", { staticClass: "w-100 main-text-color" }, [
+                      _vm._v("Tags:")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
                       {
-                        key: tag.id,
-                        domProps: {
-                          value: tag.id,
-                          selected: _vm.campingTags.includes(tag.id)
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.campingTags,
+                            expression: "campingTags"
+                          }
+                        ],
+                        attrs: { name: "tags", multiple: "" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.campingTags = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
                         }
                       },
+                      _vm._l(_vm.allTags, function(tag) {
+                        return _c(
+                          "option",
+                          {
+                            key: tag.id,
+                            domProps: {
+                              value: tag.id,
+                              selected: _vm.campingTags.includes(tag.id)
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(tag.name) +
+                                "\n                        "
+                            )
+                          ]
+                        )
+                      }),
+                      0
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _vm.action === "add"
+                  ? _c(
+                      "div",
+                      { staticClass: "form-element flex flex-col relative" },
                       [
-                        _vm._v(
-                          "\n                        " +
-                            _vm._s(tag.name) +
-                            "\n                    "
+                        _vm._m(0),
+                        _vm._v(" "),
+                        _c(
+                          "label",
+                          { staticClass: "btn img-upload-input mt-20" },
+                          [
+                            _vm._v(
+                              "\n                        Choose file/s\n                        "
+                            ),
+                            _c("input", {
+                              attrs: {
+                                type: "file",
+                                accept: "image/*",
+                                multiple: ""
+                              },
+                              on: { change: _vm.onChange }
+                            })
+                          ]
                         )
                       ]
                     )
-                  }),
-                  0
-                )
-              ]
-            )
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "form-chunk flex flex-col centering flex-start" },
-          [
-            _c(
-              "div",
-              { staticClass: "form-element flex flex-col relative centering" },
-              [
-                _c("span", { staticClass: "w-100 main-text-color" }, [
-                  _vm._v("City:")
-                ]),
+                  : _vm._e(),
                 _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.camping.city,
-                      expression: "camping.city"
-                    }
-                  ],
-                  class: { danger: _vm.errors.city },
-                  attrs: { type: "text", name: "city", placeholder: "City" },
-                  domProps: { value: _vm.camping.city },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.camping, "city", $event.target.value)
-                    }
-                  }
-                }),
+                _vm.maxImgError
+                  ? _c("span", { staticClass: "error-span text-danger" }, [
+                      _vm._v(_vm._s(_vm.maxImgError))
+                    ])
+                  : _vm._e(),
                 _vm._v(" "),
-                _vm.errors.city
+                _vm.images.length > 0
                   ? _c(
-                      "span",
-                      { staticClass: "error-span absolute text-danger" },
-                      [_vm._v(_vm._s(_vm.errors.city.toString()))]
-                    )
-                  : _vm._e()
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "form-element flex flex-col relative centering" },
-              [
-                _c("span", { staticClass: "w-100 main-text-color" }, [
-                  _vm._v("Website:")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.camping.website,
-                      expression: "camping.website"
-                    }
-                  ],
-                  class: { danger: _vm.errors.website },
-                  attrs: {
-                    type: "text",
-                    name: "website",
-                    placeholder: "Website"
-                  },
-                  domProps: { value: _vm.camping.website },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.camping, "website", $event.target.value)
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _vm.errors.website
-                  ? _c(
-                      "span",
-                      { staticClass: "error-span absolute text-danger" },
-                      [_vm._v(_vm._s(_vm.errors.website.toString()))]
-                    )
-                  : _vm._e()
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "form-element flex flex-col relative centering" },
-              [
-                _c("span", { staticClass: "w-100 main-text-color" }, [
-                  _vm._v("Rating:")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.camping.rating,
-                      expression: "camping.rating"
-                    }
-                  ],
-                  class: { danger: _vm.errors.rating },
-                  attrs: {
-                    type: "text",
-                    name: "rating",
-                    placeholder: "Rating"
-                  },
-                  domProps: { value: _vm.camping.rating },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.camping, "rating", $event.target.value)
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _vm.errors.rating
-                  ? _c(
-                      "span",
-                      { staticClass: "error-span absolute text-danger" },
-                      [_vm._v(_vm._s(_vm.errors.rating.toString()))]
+                      "div",
+                      { staticClass: "form-element" },
+                      [
+                        _c("span", { staticClass: "main-text-color" }, [
+                          _vm._v("Images to upload:")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.images, function(image) {
+                          return _c("div", { key: image.name }, [
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(image.name) +
+                                "\n                    "
+                            )
+                          ])
+                        })
+                      ],
+                      2
                     )
                   : _vm._e()
               ]
             )
-          ]
-        )
-      ]),
+          ])
+        ]
+      ),
       _vm._v(" "),
       _vm.action == "add"
         ? _c(
@@ -39127,7 +39239,17 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "w-100 main-text-color" }, [
+      _vm._v("Upload images: "),
+      _c("i", { staticClass: "far fa-images upload-cover" })
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -39166,10 +39288,10 @@ var render = function() {
       _c("div", {
         staticClass: "camp-image relative",
         style: [
-          _vm.camping.img_path
+          _vm.camping.images[0].img_path
             ? {
                 "background-image":
-                  "url(../storage/" + _vm.camping.img_path + ")"
+                  "url(../storage/" + _vm.camping.images[0].img_path + ")"
               }
             : { background: "#FFF" }
         ]
@@ -39643,7 +39765,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "ratings-heading" }, [
-      _c("h2", { staticClass: "heading-color" }, [
+      _c("h2", { staticClass: "heading-color alt-text-color" }, [
         _vm._v("Leave a Review for this camping!")
       ])
     ])
