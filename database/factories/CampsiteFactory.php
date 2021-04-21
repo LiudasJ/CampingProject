@@ -28,7 +28,6 @@ class CampsiteFactory extends Factory
             'city' => $this->faker->name . "City",
             'website' => 'www.proalpha.de',
             'rating' => rand(1, 5),
-            'img_path' => '../images/camping.jpg',
         ];
     }
 }
